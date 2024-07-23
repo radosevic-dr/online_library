@@ -75,6 +75,18 @@ To run your test:
 ./vendor/bin/pest
 ```
 
+## Pint and Pest script
+
+To run style check, test or both you can use custom script run_check.sh.
+
+```bash
+# give permission to script
+chmod +x run_checks.sh
+
+# run your script
+./run_check.sh
+```
+
 ## Serve the Application
 
 To start the development server, run:
