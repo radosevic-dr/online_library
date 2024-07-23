@@ -53,6 +53,20 @@ cp .env.example .env
 
 You can test everything visiting localhost:8000/testmail, message from views/mail/test-email will appear in your mailtrap dashboard.
 
+## Laravel Pint
+
+Code inspection for style errors without changing files:
+
+```bash
+./vendor/bin/pint --test -v
+```
+
+Instruct Pint to fix code style issues with display list of all of the files that it updates:
+
+```bash
+./vendor/bin/pint -v
+```
+
 ## Serve the Application
 
 To start the development server, run:

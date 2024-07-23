@@ -10,6 +10,6 @@ Route::get('/', function () {
 
 // Test mail
 Route::get('/testmail', function () {
-    $name = "Mitar Miric";
+    $name = 'Mitar Miric';
     Mail::to('laravel@codeus.com')->send(new LibraryEmail($name));
 });

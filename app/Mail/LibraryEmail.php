@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -38,7 +37,7 @@ class LibraryEmail extends Mailable
     public function content(): Content
     {
         return new Content(
-            
+
             view: 'mail.test-email',
             with: ['name' => $this->name]
         );
