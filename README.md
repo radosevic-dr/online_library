@@ -67,6 +67,26 @@ Instruct Pint to fix code style issues with display list of all of the files tha
 ./vendor/bin/pint -v
 ```
 
+## Laravel Pest
+
+To run your test:
+
+```bash
+./vendor/bin/pest
+```
+
+## Pint and Pest script
+
+To run style check, test or both you can use custom script run_check.sh.
+
+```bash
+# give permission to script
+chmod +x run_check.sh
+
+# run your script
+./run_check.sh
+```
+
 ## Serve the Application
 
 To start the development server, run:
