@@ -81,7 +81,7 @@ To run style check, test or both you can use custom script run_check.sh.
 
 ```bash
 # give permission to script
-chmod +x run_checks.sh
+chmod +x run_check.sh
 
 # run your script
 ./run_check.sh
