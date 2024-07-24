@@ -23,11 +23,6 @@
 </head>
 
 <body>
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
     <div class="form-container">
         <form method="POST" action="{{ route('categories.store') }}">
             @csrf

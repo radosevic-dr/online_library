@@ -15,11 +15,10 @@ Route::get('/testmail', function () {
     Mail::to('laravel@codeus.com')->send(new LibraryEmail($name));
 });
 
-Route::get('/categories', [CategoryController::class, 'index']);
 
-Route::view('/categories/create', 'categoriesCreate');
-
-Route::post('/categories', [CategoryController::class,'store'])->name('categories.store');
-
-Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('categories.show');
-
+Route::controller(CategoryController::class)->prefix('/categories')->group(function () {
+    Route::get('', 'index');
+    Route::view('/create', 'categoriesCreate');
+    Route::post('', 'store')->name('categories.store');
+    Route::get('/{category}', 'show')->name('categories.show');
+});
