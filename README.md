@@ -95,6 +95,13 @@ To start the development server, run:
 php artisan serve
 ```
 
+## Create first librarian in database
+
+```bash
+php artisan librarian:add
+# Follow the input steps
+```
+
 ## Contribution Guidelines
 
 ### Branching Strategy
