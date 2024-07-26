@@ -30,7 +30,7 @@ class AddFirstLibrariand extends Command
         $username = $this->ask('Enter librarian username');
         $email = $this->ask('Enter librarian email');
         $jmbg = $this->ask('Enter librarian jmbg');
-        $password = $this->ask('Enter librarian password min 6 and max 16 characters');
+        $password = $this->ask('Enter librarian password min 8 and max 16 characters');
 
         // ... ask for last name, email, username, jmbg and validate them
 
