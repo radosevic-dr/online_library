@@ -5,13 +5,12 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
-
+    
     public function login(Request $request)
     {
         try {
@@ -25,24 +24,27 @@ class UserController extends Controller
             if ($validateLogin->fails()) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'validation error',
+                    'message' => 'Validation Error',
                     'errors' => $validateLogin->errors(),
-                ], 401);
-            }
-
-            if (Auth::attempt($request->only(['email', 'password']))) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Email or Password does not match with our record',
                 ], 401);
             }
 
             $user = User::where('email', $request->email)->first();
 
-            return response()->json([
-                'status' => true,
-                'message' => 'User Logged In Successfully',
-            ]);
+            if($user){
+                session_start();
+                $_SESSION['user_id'] = $user->id;
+                $_SESSION['username'] = $user->username;
+            
+                $apiToken = $user->createToken('API TOKEN')->plainTextToken;
+
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Successfully Logged In',
+                    'token' => $apiToken
+                ], 200);
+            }
+
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => 'false',
