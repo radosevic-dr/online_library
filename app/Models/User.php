@@ -17,6 +17,9 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    public const USER_TYPE_STUDENT  = 'student';
+    public const USER_TYPE_LIBRARIAN  = 'librarian';
+
     protected $fillable = [
         'name',
         'email',

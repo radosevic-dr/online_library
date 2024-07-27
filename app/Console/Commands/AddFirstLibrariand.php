@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\User;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Validator;
 
 class AddFirstLibrariand extends Command
 {
@@ -30,9 +31,24 @@ class AddFirstLibrariand extends Command
         $username = $this->ask('Enter librarian username');
         $email = $this->ask('Enter librarian email');
         $jmbg = $this->ask('Enter librarian jmbg');
-        $password = $this->ask('Enter librarian password min 6 and max 16 characters');
+        $password = $this->secret('Enter librarian password min 8 and max 16 characters');
 
         // ... ask for last name, email, username, jmbg and validate them
+
+        $validateLibrarian = Validator::make([
+            'jmbg' => $jmbg,
+            'username' => $username,
+            'email' => $email,
+        ], [
+            'jmbg' => 'required|string|size:13|unique:users|regex:/^[0-9]+$/',
+            'username' => 'required|unique:users',
+            'email' => 'required|email|unique:users',
+        ]);
+
+        if($validateLibrarian->fails()){
+            $this->error($validateLibrarian->errors()->first());
+            return;
+        }
 
         $librarian = new User;
         $librarian->name = $name;
@@ -40,7 +56,7 @@ class AddFirstLibrariand extends Command
         $librarian->email = $email;
         $librarian->password = $password;
         $librarian->jmbg = $jmbg;
-        $librarian->user_type = 'librarian';
+        $librarian->user_type = User::USER_TYPE_LIBRARIAN;
 
         $librarian->save();
 
