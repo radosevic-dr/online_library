@@ -16,9 +16,4 @@ Route::get('/testmail', function () {
 });
 
 
-Route::controller(CategoryController::class)->prefix('/categories')->group(function () {
-    Route::get('', 'index');
-    Route::view('/create', 'categoriesCreate');
-    Route::post('', 'store')->name('categories.store');
-    Route::get('/{category}', 'show')->name('categories.show');
-});
+

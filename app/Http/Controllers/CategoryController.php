@@ -8,27 +8,44 @@ use App\Http\Requests\CategoryRequest;
 
 class CategoryController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        return view("/categories");
+        return Category::all();
     }
 
-    public function show(Category $category)
-    {
-        return view('categoryShow', compact('category'));
-    }
-
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(CategoryRequest $request)
     {
-        $validated = $request->validated();
-        $category = new Category();
-        $category->name = $validated['name'];
-        $category->description = $validated['description'];
-        $category->save();
-
-        return redirect()->route('categories.show', ['category' => $category->id])
-                     ->with('success', 'Category created successfully.');
+        $category = Category::create($request->all());
+        return $category;
     }
 
+    /**
+     * Display the specified resource.
+     */
+    public function show(Category $category)
+    {
+        return $category;
+    }
 
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        //
+    }
 }
