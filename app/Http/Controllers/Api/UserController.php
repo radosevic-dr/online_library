@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
+use Laravel\Sanctum\Sanctum;
 
 class UserController extends Controller
 {
-    
     public function login(Request $request)
     {
 
@@ -18,10 +17,25 @@ class UserController extends Controller
             'password' => ['required', 'min:8', 'max:32'],
         ]);
 
-        if(auth()->attempt($validateLogin)){
+        if (auth()->attempt($validateLogin)) {
             $user = User::where('email', $validateLogin['email'])->first();
             $token = $user->createToken('API TOKEN')->plainTextToken;
+
             return $token;
         }
+    }
+
+    public function logout(Request $request)
+    {
+        if ($token = $request->bearerToken()) {
+            $model = Sanctum::$personalAccessTokenModel;
+            $accessToken = $model::findToken($token);
+            $accessToken->delete();
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'User Logged out',
+        ], 200);
     }
 }
