@@ -95,4 +95,16 @@ class UserController extends Controller
 
         return response()->json(['message' => 'User details updated successfully']);
     }
+
+    public function delete(User $user)
+    {
+        $requestingUser = Auth::user();
+        if ($requestingUser->user_type !== User::USER_TYPE_LIBRARIAN) {
+            throw new UnauthorizedException("You don't have permission to delete user accounts");
+        }
+
+        $user->delete();
+
+        return response()->json(['message' => 'User account deleted successfully']);
+    }
 }
