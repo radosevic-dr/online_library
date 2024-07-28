@@ -14,3 +14,4 @@ Route::get('genres', [GenreController::class, 'index'])->name('genres.index');
 Route::post('genres', [GenreController::class, 'store'])->name('genres.store');
 Route::get('genres/{id}', [GenreController::class, 'show'])->name('genres.show');
 Route::put('genres/{id}', [GenreController::class, 'update'])->name('genres.update');
+Route::delete('genres/{id}', [GenreController::class, 'destroy'])->name('genres.destroy');
