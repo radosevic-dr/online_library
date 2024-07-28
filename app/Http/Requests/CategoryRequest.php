@@ -22,9 +22,9 @@ class CategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => "required|max:500",
-            "description" => "required|max:500",
-            "icon" => "nullable|max:5120",
+            'name' => 'required|max:500',
+            'description' => 'required|max:500',
+            'icon' => 'nullable|max:5120',
         ];
     }
 }
