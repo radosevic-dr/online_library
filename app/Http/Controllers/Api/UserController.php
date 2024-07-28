@@ -20,13 +20,13 @@ class UserController extends Controller
             'jmbg' => ['required', 'min:13', 'max:13', Rule::unique('users', 'jmbg'), 'regex:/^[0-9]+$/'],
             'password' => ['required', 'min:8', 'max:16'],
             'user_type' => ['required', Rule::in([User::USER_TYPE_LIBRARIAN, User::USER_TYPE_STUDENT])],
-            'profile_picture' => ['file', 'max:5120']
+            'picture' => ['file', 'max:5120']
         ]);
         
         $user = User::create($validateNewUser);
 
         if ($request->hasFile('picture')) {
-            $user->addMedia($request->file('profile_picture'))->toMediaCollection('profile_picture');
+            $user->addMedia($request->file('picture'))->toMediaCollection('profile_picture');
         }
     
 
