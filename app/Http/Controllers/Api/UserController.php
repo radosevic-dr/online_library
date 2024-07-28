@@ -62,4 +62,13 @@ class UserController extends Controller
             'message' => 'User Logged out',
         ], 200);
     }
+
+    public function viewUser(User $user){
+        
+        if(auth()->user()->user_type !== User::USER_TYPE_LIBRARIAN){
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        return response()->json($user);
+    }
 }
