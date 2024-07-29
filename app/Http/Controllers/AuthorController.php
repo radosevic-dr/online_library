@@ -103,4 +103,21 @@ class AuthorController extends Controller
 
         return response()->json(['message' => 'Author deleted successfully'], 200);
     }
+
+    public function index(Request $request)
+    {
+        $perPage = $request->input('per_page', 20);
+        if (!in_array($perPage, [20, 50, 100])) {
+            $perPage = 20;
+        }
+
+        $searchValue = $request->input('search');
+
+        $authors = Author::when($searchValue, function ($query, $searchValue) {
+            return $query->where('first_name', 'LIKE', "%{$searchValue}%")
+                         ->orWhere('last_name', 'LIKE', "%{$searchValue}%");
+        })->paginate($perPage);
+
+        return response()->json($authors);
+    }
 }
