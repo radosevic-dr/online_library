@@ -36,16 +36,25 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Category $category, Request $request)
     {
-        //
+        $category->update(
+            $request->validate([
+                "name" => "sometimes|max:500",
+                "description" => "sometimes|max:500",
+                "icon" => "nullable|max:5120",
+            ])
+        );
+        return $category;
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Category $category)
     {
-        //
+        $category->delete();
+
+        return response()->json(["message" => "Succsessfully deleted category"], 200);
     }
 }
