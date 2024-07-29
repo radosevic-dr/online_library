@@ -35,7 +35,7 @@ class AuthorController extends Controller
     {
         $author = Author::with('media')->find($id);
 
-        if (!$author) {
+        if (! $author) {
             return response()->json(['error' => 'Author not found'], 404);
         }
 
@@ -46,7 +46,7 @@ class AuthorController extends Controller
     {
         $author = Author::find($id);
 
-        if (!$author) {
+        if (! $author) {
             return response()->json(['error' => 'Author not found'], 404);
         }
 
@@ -64,7 +64,7 @@ class AuthorController extends Controller
     {
         $author = Author::find($id);
 
-        if (!$author) {
+        if (! $author) {
             return response()->json(['error' => 'Author not found'], 404);
         }
 
@@ -94,7 +94,7 @@ class AuthorController extends Controller
     {
         $author = Author::find($id);
 
-        if (!$author) {
+        if (! $author) {
             return response()->json(['error' => 'Author not found'], 404);
         }
 
@@ -107,7 +107,7 @@ class AuthorController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->input('per_page', 20);
-        if (!in_array($perPage, [20, 50, 100])) {
+        if (! in_array($perPage, [20, 50, 100])) {
             $perPage = 20;
         }
 
@@ -115,7 +115,7 @@ class AuthorController extends Controller
 
         $authors = Author::when($searchValue, function ($query, $searchValue) {
             return $query->where('first_name', 'LIKE', "%{$searchValue}%")
-                         ->orWhere('last_name', 'LIKE', "%{$searchValue}%");
+                ->orWhere('last_name', 'LIKE', "%{$searchValue}%");
         })->paginate($perPage);
 
         return response()->json($authors);
