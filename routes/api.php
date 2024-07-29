@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\AuthorController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,3 +18,4 @@ use Illuminate\Support\Facades\Route;
 Route::post('/authors', [AuthorController::class, 'store']);
 Route::get('/authors/{id}', [AuthorController::class, 'show']);
 Route::get('/authors/{id}/picture', [AuthorController::class, 'getPicture']);
+Route::put('/authors/{id}', [AuthorController::class, 'update']);
