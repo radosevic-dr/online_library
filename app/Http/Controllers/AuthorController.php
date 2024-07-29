@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Author;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class AuthorController extends Controller
 {
@@ -29,5 +28,34 @@ class AuthorController extends Controller
         }
 
         return response()->json($author->load('media'), 201);
+    }
+
+    public function show($id)
+    {
+        $author = Author::with('media')->find($id);
+
+        if (! $author) {
+            return response()->json(['error' => 'Author not found'], 404);
+        }
+
+        return response()->json($author);
+    }
+
+    public function getPicture($id)
+    {
+        $author = Author::find($id);
+
+        if (! $author) {
+            return response()->json(['error' => 'Author not found'], 404);
+        }
+
+        $mediaItems = $author->getMedia('pictures');
+        if ($mediaItems->isEmpty()) {
+            return response()->json(['error' => 'Picture not found'], 404);
+        }
+
+        $picture = $mediaItems->first();
+
+        return response()->download($picture->getPath(), $picture->file_name);
     }
 }

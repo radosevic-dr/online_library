@@ -16,3 +16,5 @@ use Illuminate\Support\Facades\Route;
 
 // Author Routes
 Route::post('/authors', [AuthorController::class, 'store']);
+Route::get('/authors/{id}', [AuthorController::class, 'show']);
+Route::get('/authors/{id}/picture', [AuthorController::class, 'getPicture']);
