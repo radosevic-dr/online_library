@@ -16,8 +16,8 @@ use Illuminate\Support\Facades\Route;
 
 // Author Routes
 Route::post('/authors', [AuthorController::class, 'store']);
-Route::get('/authors/{id}', [AuthorController::class, 'show']);
-Route::get('/authors/{id}/picture', [AuthorController::class, 'getPicture']);
+Route::get('/authors', [AuthorController::class, 'index']); // General route for listing authors
+Route::get('/authors/{id}/picture', [AuthorController::class, 'getPicture']); // Specific route for getting picture
+Route::get('/authors/{id}', [AuthorController::class, 'show']); // Specific route for showing a single author
 Route::put('/authors/{id}', [AuthorController::class, 'update']);
 Route::delete('/authors/{id}', [AuthorController::class, 'destroy']);
-Route::get('/authors', [AuthorController::class, 'index']);
