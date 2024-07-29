@@ -19,3 +19,4 @@ Route::post('/authors', [AuthorController::class, 'store']);
 Route::get('/authors/{id}', [AuthorController::class, 'show']);
 Route::get('/authors/{id}/picture', [AuthorController::class, 'getPicture']);
 Route::put('/authors/{id}', [AuthorController::class, 'update']);
+Route::delete('/authors/{id}', [AuthorController::class, 'destroy']);

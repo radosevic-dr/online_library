@@ -89,4 +89,18 @@ class AuthorController extends Controller
 
         return response()->json($author->load('media'), 200);
     }
+
+    public function destroy($id)
+    {
+        $author = Author::find($id);
+
+        if (!$author) {
+            return response()->json(['error' => 'Author not found'], 404);
+        }
+
+        $author->clearMediaCollection('pictures'); // Clear associated media
+        $author->delete();
+
+        return response()->json(['message' => 'Author deleted successfully'], 200);
+    }
 }
