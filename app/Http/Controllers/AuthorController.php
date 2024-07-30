@@ -17,9 +17,7 @@ class AuthorController extends Controller
             'picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
+        
 
         $data = $request->only(['first_name', 'last_name', 'biography']);
         $author = Author::create($data);
