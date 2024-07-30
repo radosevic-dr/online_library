@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Laravel\Sanctum\Sanctum;
-use Illuminate\Validation\Rule;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\UnauthorizedException;
+use Laravel\Sanctum\Sanctum;
 
 class UserController extends Controller
 {
@@ -104,8 +104,8 @@ class UserController extends Controller
             throw new UnauthorizedException("You don't have permission to delete user accounts");
         }
 
-            $user->delete();
-  
+        $user->delete();
+
         return response()->json(['message' => 'User account deleted successfully']);
     }
 }
