@@ -90,7 +90,7 @@ class UserController extends Controller
 
         if ($request->hasFile('picture')) {
             $user->clearMediaCollection('profile_picture');
-            $user->addMediaFromRequest('picture')->toMediaCollection('profile_picture');
+            $user->addMedia($request->file('picture'))->toMediaCollection('profile_picture');
         }
 
         return response()->json(['message' => 'User details updated successfully']);
