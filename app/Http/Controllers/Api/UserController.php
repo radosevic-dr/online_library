@@ -22,6 +22,8 @@ class UserController extends Controller
             $user = User::where('email', $validateLogin['email'])->first();
             $token = $user->createToken('API TOKEN')->plainTextToken;
             return $token;
+        } else {
+            return response()->json(['error' => 'Invalid credentials'], 422);
         }
     }
 }
