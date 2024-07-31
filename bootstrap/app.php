@@ -13,7 +13,8 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
-            'tokenAuth' => \App\Http\Middleware\TokenAuthMiddleware::class
+            'tokenAuth' => \App\Http\Middleware\TokenAuthMiddleware::class,
+            'checkLibrarian' => \App\Http\Middleware\CheckLibrarian::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

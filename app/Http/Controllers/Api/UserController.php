@@ -65,10 +65,6 @@ class UserController extends Controller
 
     public function viewUser(User $user){
         
-        if(auth()->user()->user_type !== User::USER_TYPE_LIBRARIAN){
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
-
         return response()->json($user);
     }
 }

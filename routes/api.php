@@ -11,5 +11,5 @@ Route::middleware('auth:sanctum')->group(function(){
 
     // pass user id as parameter
     // dont forget to add logged user bearer token 
-    Route::get('/auth/user/{user}', [UserController::class, 'viewUser']);
+    Route::get('/auth/user/{user}', [UserController::class, 'viewUser'])->middleware('checkLibrarian');
 });
