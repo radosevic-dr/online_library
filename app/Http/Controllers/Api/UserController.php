@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Laravel\Sanctum\Sanctum;
 
 class UserController extends Controller
 {
@@ -24,5 +25,19 @@ class UserController extends Controller
         } else {
             return response()->json(['error' => 'Invalid credentials'], 422);
         }
+    }
+
+    public function logout(Request $request)
+    {
+        if ($token = $request->bearerToken()) {
+            $model = Sanctum::$personalAccessTokenModel;
+            $accessToken = $model::findToken($token);
+            $accessToken->delete();
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'User Logged out',
+        ], 200);
     }
 }
