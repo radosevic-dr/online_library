@@ -66,7 +66,7 @@ class UserController extends Controller
     {
 
         if (auth()->user()->user_type !== User::USER_TYPE_LIBRARIAN) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['error' => 'Unauthorized'], 422);
         }
 
         return response()->json($user);
@@ -78,10 +78,11 @@ class UserController extends Controller
 
         $validatedData = $request->validate([
             'name' => ['sometimes', 'required', 'string', 'max:255'],
+            'username' => ['sometimes', 'required', Rule::unique('users', 'username')->ignore($user->id)],
             'email' => ['sometimes', 'required', 'email', Rule::unique('users', 'email')->ignore($user->id)],
-            'jmbg' => ['sometimes', 'required', 'min:13', 'max:13', 'regex:/^[0-9]+$/'],
+            'jmbg' => ['sometimes', 'required', 'min:13', 'max:13', 'regex:/^[0-9]+$/', Rule::unique('users', 'jmbg')->ignore($user->id)],
             'password' => ['sometimes', 'required', 'min:8', 'max:16'],
-            'picture' => ['sometimes', 'file', 'max:5120'],
+            'picture' => ['sometimes', 'file', 'max:5120', 'mimes:jpg,'],
         ]);
 
         if ($request->has('name') || $request->has('email') || $request->has('jmbg') || $request->has('password')) {
