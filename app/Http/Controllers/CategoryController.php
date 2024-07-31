@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Requests\CategoryRequest;
@@ -9,34 +10,30 @@ use App\Http\Requests\CategoryRequest;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        return Category::paginate(10);
+        $perPageOptions = [20, 50, 100];
+
+        $perPage = $request->input('per_page', 20);
+
+        if (!in_array($perPage, $perPageOptions)) {
+            $perPage = 20;
+        }
+        return CategoryResource::collection(Category::paginate($perPage));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(CategoryRequest $request)
     {
         $category = Category::create($request->all());
-        return $category;
+
+        return new CategoryResource($category);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Category $category)
     {
-        return $category;
+        return new CategoryResource($category);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Category $category, Request $request)
     {
         $category->update(
@@ -46,16 +43,13 @@ class CategoryController extends Controller
                 "icon" => "nullable|max:5120",
             ])
         );
-        return $category;
+        return new CategoryResource($category);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Category $category)
     {
         $category->delete();
 
-        return response()->json(["message" => "Succsessfully deleted category"], 200);
+        return response(status: 204);
     }
 }
