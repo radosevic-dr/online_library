@@ -5,9 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/auth/login', [UserController::class, 'login']);
 
-Route::group([
-    'middleware' => ['auth:sanctum'],
-], function () {
-
+Route::middleware('auth:sanctum')->group(function(){
+    Route::post('/auth/register', [UserController::class, 'register']);
     Route::post('/auth/logout', [UserController::class, 'logout']);
 });
