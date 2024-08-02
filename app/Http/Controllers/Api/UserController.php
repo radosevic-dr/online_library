@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\UnauthorizedException;
 use Laravel\Sanctum\Sanctum;
 
 class UserController extends Controller
@@ -91,9 +92,21 @@ class UserController extends Controller
 
         if ($request->hasFile('picture')) {
             $user->clearMediaCollection('profile_picture');
-            $user->addMediaFromRequest('picture')->toMediaCollection('profile_picture');
+            $user->addMedia($request->file('picture'))->toMediaCollection('profile_picture');
         }
 
         return response()->json(['message' => 'User details updated successfully']);
+    }
+
+    public function delete(User $user)
+    {
+        $requestingUser = Auth::user();
+        if ($requestingUser->user_type !== User::USER_TYPE_LIBRARIAN) {
+            throw new UnauthorizedException("You don't have permission to delete user accounts");
+        }
+
+        $user->delete();
+
+        return response()->json(['message' => 'User account deleted successfully']);
     }
 }

@@ -14,4 +14,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/auth/user/{user}', [UserController::class, 'viewUser']);
 
     Route::put('/auth/user/update', [UserController::class, 'editUser']);
+
+    Route::delete('/auth/user/{user}', [UserController::class, 'delete']);
 });
