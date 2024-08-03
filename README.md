@@ -87,12 +87,40 @@ chmod +x run_check.sh
 ./run_check.sh
 ```
 
+## Script for making branching easier
+
+easyBranch.sh is a Bash script that provides a simple and interactive interface for managing local Git branches within a Git repository. The script allows users to perform the following actions:
+
+- list all branches
+- checkout existing branch - prompt user to select a branch number from the list
+- create new branch
+- delete branch
+
+Before usage make sure to the script has executable permission
+
+```bash
+chmod +x easyBranch.sh
+```
+
+Usage
+
+```bash
+./easyBranch.sh
+```
+
 ## Serve the Application
 
 To start the development server, run:
 
 ```bash
 php artisan serve
+```
+
+## Create first librarian in database
+
+```bash
+php artisan librarian:add
+# Follow the input steps
 ```
 
 ## Contribution Guidelines

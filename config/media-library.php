@@ -12,7 +12,9 @@ return [
      * The maximum file size of an item in bytes.
      * Adding a larger file will result in an exception.
      */
+
     'max_file_size' => 1024 * 1024 * 10, // 10MB
+
 
     /*
      * This queue connection will be used to generate derived and responsive images.
@@ -49,7 +51,9 @@ return [
      *
      * This model is only used in Media Library Pro (https://medialibrary.pro)
      */
-    //'temporary_upload_model' => Spatie\MediaLibraryPro\Models\TemporaryUpload::class,
+
+    'temporary_upload_model' => Spatie\MediaLibraryPro\Models\TemporaryUpload::class,
+
 
     /*
      * When enabled, Media Library Pro will only process temporary uploads that were uploaded
