@@ -11,9 +11,17 @@ class PublisherController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Publisher $publisher)
+    public function index(Publisher $publisher, Request $request)
     {
-        //return PublisherResource::collection(Publisher::all());
+//        $perPageOptions = [20, 50, 100];
+//
+//        $perPage = $request->input('per_page', 20);
+//
+//        if (!in_array($perPage, $perPageOptions)) {
+//            $perPage = 20;
+//        }
+//
+//        return PublisherResource::collection(Publisher::paginate($perPage));
     }
 
     /**
@@ -43,7 +51,12 @@ class PublisherController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Publisher $publisher)
     {
+        $publisher->delete();
+
+        return response()->json([
+            'message' => 'Successfully deleted'
+        ]);
     }
 }
