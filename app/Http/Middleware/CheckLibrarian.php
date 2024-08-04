@@ -2,8 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
 use App\Models\User;
+use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -16,7 +16,7 @@ class CheckLibrarian
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(auth()->user()->user_type !== User::USER_TYPE_LIBRARIAN){
+        if (auth()->user()->user_type !== User::USER_TYPE_LIBRARIAN) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
