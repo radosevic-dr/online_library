@@ -8,12 +8,12 @@ use App\Http\Controllers\CategoryController;
 
 
 Route::post('/auth/login', [UserController::class, 'login']);
-Route::apiResource('category', CategoryController::class)
-    ->middleware('auth:sanctum');
+Route::apiResource('category', CategoryController::class);
+//    ->middleware('auth:sanctum');
 
 Route::post('/upload-icon', [ImageController::class, 'uploadIcon']);
 
-Route::middleware('auth:sanctum')->group(function(){
+Route::middleware('auth:sanctum')->group(function () {
     Route::post('/auth/register', [UserController::class, 'register']);
     Route::post('/auth/logout', [UserController::class, 'logout']);
 });

@@ -6,19 +6,35 @@ use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Requests\CategoryRequest;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 
 class CategoryController extends Controller
 {
     public function index(Request $request)
     {
+        $data = [
+            'per_page' => 20,
+        ];
+
         $perPageOptions = [20, 50, 100];
 
-        $perPage = $request->input('per_page', 20);
+        $validator = Validator::make($data, [
+            'per_page' => [
+                'required',
+                'integer',
+                Rule::in($perPageOptions),
+            ],
+        ]);
 
-        if (!in_array($perPage, $perPageOptions)) {
-            $perPage = 20;
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            return response()->json(['errors' => $errors], 400);
         }
+
+        $perPage = $data['per_page'];
+        
         return CategoryResource::collection(Category::paginate($perPage));
     }
 
