@@ -11,14 +11,18 @@ class GenreController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $genres = Genre::paginate(10);
+            $perPage = $request->get('per_page', 10);
+            $genres = Genre::paginate($perPage);
+
             return response()->json($genres, 200);
-        }catch (Exception $e){
-            return response()->json($e->getMessage(),400);
-            }
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => 'An error occurred while retrieving genres.',
+            ], 400);
+        }
     }
 
     /**
@@ -33,9 +37,12 @@ class GenreController extends Controller
             $genre = Genre::create([
                 'name' => $validated['name'],
             ]);
+
             return response()->json($genre, 201);
-        }catch (Exception $e){
-            return response()->json($e->getMessage(), 400);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => 'An error occurred while creating genre.',
+            ]);
         }
     }
 
@@ -46,9 +53,12 @@ class GenreController extends Controller
     {
         try {
             $genre = Genre::findOrFail($id);
+
             return response()->json($genre, 200);
-        }catch (Exception $e){
-            return response()->json($e->getMessage(), 400);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => 'An error occurred while retrieving a single genre.',
+            ]);
         }
     }
 
@@ -65,9 +75,12 @@ class GenreController extends Controller
             $genre->update([
                 'name' => $validated['name'],
             ]);
+
             return response()->json($genre, 200);
-        }catch (Exception $e){
-            return response()->json($e->getMessage(), 400);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => 'An error occurred while updating genre.',
+            ]);
         }
     }
 
@@ -79,9 +92,12 @@ class GenreController extends Controller
         try {
             $genre = Genre::findOrFail($id);
             $genre->delete();
+
             return response()->json($genre, 200);
-        }catch (Exception $e){
-            return response()->json($e->getMessage(), 400);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => 'An error occurred while deleting genre.',
+            ]);
         }
     }
 }

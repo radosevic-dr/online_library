@@ -8,7 +8,6 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-
 //Routes for genres
 Route::get('genres', [GenreController::class, 'index'])->name('genres.index');
 Route::post('genres', [GenreController::class, 'store'])->name('genres.store');

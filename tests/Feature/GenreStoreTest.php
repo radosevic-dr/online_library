@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Genre;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);

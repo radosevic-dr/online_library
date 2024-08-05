@@ -8,7 +8,7 @@ uses(RefreshDatabase::class);
 it('lists all genres', function () {
     for ($i = 0; $i < 10; $i++) {
         $genre = new Genre;
-        $genre->name = 'Test Genre ' . $i;
+        $genre->name = 'Test Genre '.$i;
         $genre->save();
     }
 
