@@ -65,6 +65,22 @@ class UserController extends Controller
         ], 200);
     }
 
+    public function viewUsers(Request $request, $role)
+    {
+        $perPage = $request->input('per_page', 20); 
+        $searchValue = $request->input('search_value');
+
+        $users = User::where('user_type', $role)
+            ->where(function ($query) use ($searchValue) {
+                $query->where('name', 'like', '%' . strtolower($searchValue) . '%')
+                    ->orWhere('email', 'like', '%' . strtolower($searchValue) . '%')
+                    ->orWhere('username', 'like', '%' . strtolower($searchValue) . '%');
+            })
+            ->paginate($perPage);
+
+        return response()->json($users);
+    }
+
     public function viewUser(User $user)
     {
 
@@ -73,6 +89,11 @@ class UserController extends Controller
         }
 
         return response()->json($user);
+    }
+
+    public function viewUserProfilePicture(User $user)
+    {
+        return $user->getFirstMediaUrl('profile_picture');
     }
 
     public function editUser(Request $request)
@@ -88,16 +109,20 @@ class UserController extends Controller
             'picture' => ['sometimes', 'file', 'max:5120', 'mimes:jpg,'],
         ]);
 
-        if ($request->has('name') || $request->has('email') || $request->has('jmbg') || $request->has('password')) {
-            $user->update($validatedData);
-        }
+        if ($request->has('name')) $user->name = $validatedData['name'];
+        if ($request->has('username')) $user->username = $validatedData['username'];
+        if ($request->has('email')) $user->email = $validatedData['email'];
+        if ($request->has('jmbg')) $user->jmbg = $validatedData['jmbg'];
+        if ($request->has('password')) $user->password = $validatedData['password'];
 
         if ($request->hasFile('picture')) {
             $user->clearMediaCollection('profile_picture');
             $user->addMedia($request->file('picture'))->toMediaCollection('profile_picture');
         }
 
-        return response()->json(['message' => 'User details updated successfully']);
+        $user->save();
+
+        return response()->json(['message' => 'User details updated successfully', $user]);
     }
 
     public function delete(User $user)
@@ -105,6 +130,10 @@ class UserController extends Controller
         $requestingUser = Auth::user();
         if ($requestingUser->user_type !== User::USER_TYPE_LIBRARIAN) {
             throw new UnauthorizedException("You don't have permission to delete user accounts");
+        }
+
+        if ($user->hasMedia('profile_picture')) {
+            $user->clearMediaCollection('profile_picture');
         }
 
         $user->delete();
