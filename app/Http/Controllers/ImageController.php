@@ -15,10 +15,6 @@ class ImageController extends Controller
         $categoryId = $request->input('category_id');
         $category = Category::find($categoryId);
 
-        if (!$category) {
-            Log::error('Category not found');
-            return response()->json(['error' => 'Category not found'], 404);
-        }
 
         if ($request->hasFile('icon')) {
             $file = $request->file('icon');

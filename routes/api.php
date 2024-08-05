@@ -11,7 +11,7 @@ Route::post('/auth/login', [UserController::class, 'login']);
 Route::apiResource('category', CategoryController::class);
 //    ->middleware('auth:sanctum');
 
-Route::post('/upload-icon', [ImageController::class, 'uploadIcon']);
+Route::post('/upload-icon/{category}', [ImageController::class, 'uploadIcon']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/auth/register', [UserController::class, 'register']);
