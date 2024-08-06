@@ -12,7 +12,7 @@ class Publisher extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'address', 'website', 'email', 'phone', 'established_year',
+        'name', 'address', 'website', 'email', 'phone', 'established_year', 'logo',
     ];
 
     // public function books()
@@ -23,5 +23,17 @@ class Publisher extends Model
     // public function authors()
     // {
     //     return $this->belongsToMany(Author::class);
+    // }
+
+    // Relations in Book model
+    // public function publisher()
+    // {
+    //     return $this->belongsTo(Publisher::class);
+    // }
+
+    // Relations in Author model
+    // public function publishers()
+    // {
+    //     return $this->belongsToMany(Publisher::class);
     // }
 }
