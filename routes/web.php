@@ -4,6 +4,7 @@ use App\Mail\LibraryEmail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -13,3 +14,5 @@ Route::get('/testmail', function () {
     $name = 'Mitar Miric';
     Mail::to('laravel@codeus.com')->send(new LibraryEmail($name));
 });
+
+
