@@ -1,12 +1,15 @@
 <?php
 
-use App\Models\Author;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use function Pest\Laravel\postJson;
+use App\Models\User;
 
 it('can create an author', function () {
     Storage::fake('public');
+
+    $user = User::factory()->create();
+    $token = $user->createToken('TestToken')->plainTextToken;
 
     $file = UploadedFile::fake()->image('avatar.jpg');
 
@@ -15,6 +18,8 @@ it('can create an author', function () {
         'last_name' => 'Doe',
         'biography' => 'A short bio',
         'picture' => $file,
+    ], [
+        'Authorization' => 'Bearer ' . $token,
     ]);
 
     $response->assertStatus(201);

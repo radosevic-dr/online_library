@@ -2,12 +2,51 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Models\Author;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class AuthorController extends Controller
 {
+    public function __construct()
+    {
+        // Apply middleware to ensure user is authenticated and is a librarian
+        $this->middleware('auth:sanctum')->except(['index', 'show', 'getPicture']);
+        $this->middleware('librarian')->only(['store', 'update', 'destroy']);
+    }
+
+    public function index(Request $request)
+    {
+        $perPage = $request->input('per_page', 20);
+        $perPage = in_array($perPage, [20, 50, 100]) ? $perPage : 20;
+
+        $query = Author::query();
+
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->where('first_name', 'like', "%$search%")
+                  ->orWhere('last_name', 'like', "%$search%");
+        }
+
+        return response()->json($query->paginate($perPage));
+    }
+
+    public function show(Author $author)
+    {
+        $author->load('media');
+
+        return response()->json($author);
+    }
+
+    public function getPicture($id)
+    {
+        $author = Author::findOrFail($id);
+        $media = $author->getFirstMedia('pictures');
+
+        return response()->json($media);
+    }
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -31,43 +70,8 @@ class AuthorController extends Controller
         return response()->json($author->load('media'), 201);
     }
 
-    public function show($id)
+    public function update(Request $request, Author $author)
     {
-        $author = Author::with('media')->find($id);
-
-        if (! $author) {
-            return response()->json(['error' => 'Author not found'], 404);
-        }
-
-        return response()->json($author);
-    }
-
-    public function getPicture($id)
-    {
-        $author = Author::find($id);
-
-        if (! $author) {
-            return response()->json(['error' => 'Author not found'], 404);
-        }
-
-        $mediaItems = $author->getMedia('pictures');
-        if ($mediaItems->isEmpty()) {
-            return response()->json(['error' => 'Picture not found'], 404);
-        }
-
-        $picture = $mediaItems->first();
-
-        return response()->download($picture->getPath(), $picture->file_name);
-    }
-
-    public function update(Request $request, $id)
-    {
-        $author = Author::find($id);
-
-        if (! $author) {
-            return response()->json(['error' => 'Author not found'], 404);
-        }
-
         $validator = Validator::make($request->all(), [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
@@ -87,37 +91,14 @@ class AuthorController extends Controller
             $author->addMedia($request->file('picture'))->toMediaCollection('pictures');
         }
 
-        return response()->json($author->load('media'), 200);
+        return response()->json($author->load('media'));
     }
 
-    public function destroy($id)
+    public function destroy(Author $author)
     {
-        $author = Author::find($id);
-
-        if (! $author) {
-            return response()->json(['error' => 'Author not found'], 404);
-        }
-
-        $author->clearMediaCollection('pictures'); // Clear associated media
+        $author->clearMediaCollection('pictures');
         $author->delete();
 
-        return response()->json(['message' => 'Author deleted successfully'], 200);
-    }
-
-    public function index(Request $request)
-    {
-        $perPage = $request->input('per_page', 20);
-        if (! in_array($perPage, [20, 50, 100])) {
-            $perPage = 20;
-        }
-
-        $searchValue = $request->input('search');
-
-        $authors = Author::when($searchValue, function ($query, $searchValue) {
-            return $query->where('first_name', 'LIKE', "%{$searchValue}%")
-                ->orWhere('last_name', 'LIKE', "%{$searchValue}%");
-        })->paginate($perPage);
-
-        return response()->json($authors);
+        return response()->json(null, 204);
     }
 }

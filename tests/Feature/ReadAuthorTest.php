@@ -1,12 +1,18 @@
 <?php
 
 use App\Models\Author;
+use App\Models\User;
 use function Pest\Laravel\get;
 
 it('can retrieve an author', function () {
+    $user = User::factory()->create();
+    $token = $user->createToken('TestToken')->plainTextToken;
+
     $author = Author::factory()->create();
 
-    $response = get('/api/authors/' . $author->id);
+    $response = get('/api/authors/' . $author->id, [
+        'Authorization' => 'Bearer ' . $token,
+    ]);
 
     $response->assertStatus(200);
     $response->assertJson([
