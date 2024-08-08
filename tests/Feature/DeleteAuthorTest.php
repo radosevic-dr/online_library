@@ -2,6 +2,7 @@
 
 use App\Models\Author;
 use App\Models\User;
+
 use function Pest\Laravel\delete;
 
 it('can delete an author', function () {
@@ -10,8 +11,8 @@ it('can delete an author', function () {
 
     $author = Author::factory()->create();
 
-    $response = delete('/api/authors/' . $author->id, [], [
-        'Authorization' => 'Bearer ' . $token,
+    $response = delete('/api/authors/'.$author->id, [], [
+        'Authorization' => 'Bearer '.$token,
     ]);
 
     $response->assertStatus(200);

@@ -1,9 +1,10 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+
 use function Pest\Laravel\postJson;
-use App\Models\User;
 
 it('can create an author', function () {
     Storage::fake('public');
@@ -19,7 +20,7 @@ it('can create an author', function () {
         'biography' => 'A short bio',
         'picture' => $file,
     ], [
-        'Authorization' => 'Bearer ' . $token,
+        'Authorization' => 'Bearer '.$token,
     ]);
 
     $response->assertStatus(201);
@@ -27,5 +28,5 @@ it('can create an author', function () {
         'id', 'first_name', 'last_name', 'biography', 'created_at', 'updated_at', 'media',
     ]);
 
-    Storage::disk('public')->assertExists('pictures/' . $file->hashName());
+    Storage::disk('public')->assertExists('pictures/'.$file->hashName());
 });

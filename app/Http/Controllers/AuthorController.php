@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Author;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -26,7 +25,7 @@ class AuthorController extends Controller
         if ($request->has('search')) {
             $search = $request->input('search');
             $query->where('first_name', 'like', "%$search%")
-                  ->orWhere('last_name', 'like', "%$search%");
+                ->orWhere('last_name', 'like', "%$search%");
         }
 
         return response()->json($query->paginate($perPage));
