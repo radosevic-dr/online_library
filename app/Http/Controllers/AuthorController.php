@@ -8,22 +8,19 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthorController extends Controller
 {
-    public function __construct()
-    {
-        // Apply middleware to ensure user is authenticated and is a librarian
-        $this->middleware('auth:sanctum')->except(['index', 'show', 'getPicture']);
-        $this->middleware('librarian')->only(['store', 'update', 'destroy']);
-    }
-
     public function index(Request $request)
     {
-        $perPage = $request->input('per_page', 20);
-        $perPage = in_array($perPage, [20, 50, 100]) ? $perPage : 20;
+        $validated = $request->validate([
+            'per_page' => 'integer|in:20,50,100',
+            'search' => 'string|nullable',
+        ]);
+
+        $perPage = $validated['per_page'] ?? 20;
+        $search = $validated['search'] ?? null;
 
         $query = Author::query();
 
-        if ($request->has('search')) {
-            $search = $request->input('search');
+        if ($search) {
             $query->where('first_name', 'like', "%$search%")
                 ->orWhere('last_name', 'like', "%$search%");
         }
@@ -38,9 +35,8 @@ class AuthorController extends Controller
         return response()->json($author);
     }
 
-    public function getPicture($id)
+    public function getPicture(Author $author)
     {
-        $author = Author::findOrFail($id);
         $media = $author->getFirstMedia('pictures');
 
         return response()->json($media);
