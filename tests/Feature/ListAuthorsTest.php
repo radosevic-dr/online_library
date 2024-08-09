@@ -3,8 +3,7 @@
 use App\Models\Author;
 use App\Models\User;
 
-use function Pest\Laravel\{postJson, delete, get, putJson};
-
+use function Pest\Laravel\get;
 
 it('can list authors with default pagination', function () {
     $user = User::factory()->create();

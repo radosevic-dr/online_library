@@ -4,8 +4,7 @@ use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
-
-use function Pest\Laravel\{postJson, delete, get, putJson};
+use function Pest\Laravel\postJson;
 
 it('can create an author', function () {
     Storage::fake('public');

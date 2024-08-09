@@ -18,7 +18,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/auth/user/update', [UserController::class, 'editUser'])->name('user.edit');
 
     Route::delete('/auth/user/{user}', [UserController::class, 'delete'])->name('user.delete');
-    
+
     Route::post('/authors', [AuthorController::class, 'store']);
     Route::put('/authors/{author}', [AuthorController::class, 'update']);
     Route::delete('/authors/{author}', [AuthorController::class, 'destroy']);

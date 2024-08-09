@@ -1,11 +1,9 @@
 <?php
 
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+
 // use Illuminate\Foundation\Testing\RefreshDatabase;
-
-
 
 /* ---------- login user test ----------*/
 
@@ -28,13 +26,12 @@ it('can login existing user', function () {
 /* ---------- register user test ----------*/
 
 it('can register new user', function () {
-    loginAsUser()->post(route('user.register'), array(User::factory()->create()))->assertRedirect('/');
+    loginAsUser()->post(route('user.register'), [User::factory()->create()])->assertRedirect('/');
 
     $newUser = User::latest()->first();
 
     expect($newUser->name)->toBeString();
 });
-
 
 /* ---------- edit user test ----------*/
 it('can edit user', function () {
