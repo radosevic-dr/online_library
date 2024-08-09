@@ -3,7 +3,8 @@
 use App\Models\Author;
 use App\Models\User;
 
-use function Pest\Laravel\get;
+use function Pest\Laravel\{postJson, delete, get, putJson};
+
 
 it('can retrieve an author', function () {
     $user = User::factory()->create();

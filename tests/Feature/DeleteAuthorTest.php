@@ -3,7 +3,8 @@
 use App\Models\Author;
 use App\Models\User;
 
-use function Pest\Laravel\delete;
+use function Pest\Laravel\{postJson, delete, get, putJson};
+
 
 it('can delete an author', function () {
     $user = User::factory()->create();

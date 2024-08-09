@@ -4,12 +4,15 @@ use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
-use function Pest\Laravel\postJson;
+
+use function Pest\Laravel\{postJson, delete, get, putJson};
 
 it('can create an author', function () {
     Storage::fake('public');
 
-    $user = User::factory()->create();
+    $user = User::factory()->create([
+        'username' => 'testusername',
+    ]);
     $token = $user->createToken('TestToken')->plainTextToken;
 
     $file = UploadedFile::fake()->image('avatar.jpg');
