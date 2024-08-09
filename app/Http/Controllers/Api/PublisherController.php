@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Models\Publisher;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Http\Controllers\Controller;
 
 class PublisherController extends Controller
 {
@@ -28,5 +29,21 @@ class PublisherController extends Controller
         }
 
         return $publisher;
+    }
+
+
+    public function viewPublisher($id)
+    {
+        if (auth()->user()->user_type !== User::USER_TYPE_LIBRARIAN) {
+            return response()->json(['error' => 'Unauthorized'], 422);
+        }
+
+        $publisher = Publisher::findOrFail($id);
+        return response()->json($publisher);
+    }
+
+    public function getPublisherLogo(Publisher $publisher)
+    {
+        return $publisher->getFirstMediaUrl('logo');
     }
 }
