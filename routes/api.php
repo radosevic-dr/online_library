@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\PublisherController;
+use App\Http\Controllers\Api\UserController;
+use Illuminate\Support\Facades\Route;
 
 Route::post('/auth/login', [UserController::class, 'login']);
 
@@ -12,5 +12,5 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Publisher routes
 
-    Route::post('/auth/publishers/create', [PublisherController::class, 'createPublisher']);
+    Route::post('/auth/publishers/create', [PublisherController::class, 'createPublisher'])->name('publishers.create');
 });
