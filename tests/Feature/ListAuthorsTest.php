@@ -1,8 +1,6 @@
 <?php
 
 use App\Models\Author;
-use App\Models\User;
-
 use function Pest\Laravel\get;
 
 it('can list authors with default pagination', function () {
@@ -69,7 +67,7 @@ it('defaults to 20 per page if invalid per_page is provided', function () {
 
     Author::factory()->count(25)->create();
 
-    $response =$this->get('/api/authors?per_page=30');
+    $response = $this->get('/api/authors?per_page=30'); // 30 is invalid
 
     $response->assertStatus(200);
     $response->assertJsonStructure([
@@ -81,4 +79,26 @@ it('defaults to 20 per page if invalid per_page is provided', function () {
     ]);
 
     $response->assertJsonCount(20, 'data');
+});
+
+it('returns validation error for invalid per_page', function () {
+    loginAsUser();
+
+    $response = $this->get('/api/authors?per_page=30'); // 30 is invalid
+
+    $response->assertStatus(422);
+    $response->assertJsonValidationErrors('per_page');
+});
+
+it('can search authors by first or last name', function () {
+    loginAsUser();
+
+    Author::factory()->create(['first_name' => 'John', 'last_name' => 'Doe']);
+    Author::factory()->create(['first_name' => 'Jane', 'last_name' => 'Smith']);
+
+    $response = $this->get('/api/authors?search=John');
+
+    $response->assertStatus(200);
+    $response->assertJsonCount(1, 'data');
+    $response->assertJsonPath('data.0.first_name', 'John');
 });

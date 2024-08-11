@@ -14,19 +14,22 @@ class AuthorController extends Controller
             'per_page' => 'integer|in:20,50,100',
             'search' => 'string|nullable',
         ]);
-
+    
         $perPage = $validated['per_page'] ?? 20;
         $search = $validated['search'] ?? null;
-
+    
         $query = Author::query();
-
+    
         if ($search) {
             $query->where('first_name', 'like', "%$search%")
                 ->orWhere('last_name', 'like', "%$search%");
         }
-
-        return response()->json($query->paginate($perPage));
+    
+        $authors = $query->paginate($perPage);
+    
+        return response()->json($authors);
     }
+    
 
     public function show(Author $author)
     {
