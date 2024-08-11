@@ -9,20 +9,15 @@ use function Pest\Laravel\postJson;
 it('can create an author', function () {
     Storage::fake('public');
 
-    $user = User::factory()->create([
-        'username' => 'testusername',
-    ]);
-    $token = $user->createToken('TestToken')->plainTextToken;
+    loginAsUser();
 
     $file = UploadedFile::fake()->image('avatar.jpg');
 
-    $response = postJson('/api/authors', [
+    $response = $this->postJson('/api/authors', [
         'first_name' => 'John',
         'last_name' => 'Doe',
         'biography' => 'A short bio',
         'picture' => $file,
-    ], [
-        'Authorization' => 'Bearer '.$token,
     ]);
 
     $response->assertStatus(201);
@@ -30,5 +25,5 @@ it('can create an author', function () {
         'id', 'first_name', 'last_name', 'biography', 'created_at', 'updated_at', 'media',
     ]);
 
-    Storage::disk('public')->assertExists('pictures/'.$file->hashName());
+    Storage::disk('public')->assertExists($response["id"]."/".$response["media"][0]["file_name"]);
 });

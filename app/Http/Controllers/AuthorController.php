@@ -67,16 +67,13 @@ class AuthorController extends Controller
 
     public function update(Request $request, Author $author)
     {
-        $validator = Validator::make($request->all(), [
+        $request->validate([   //Errors are handled automatically!
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'biography' => 'nullable|string',
             'picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
 
         $data = $request->only(['first_name', 'last_name', 'biography']);
         $author->update($data);

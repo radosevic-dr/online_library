@@ -3,17 +3,16 @@
 use App\Models\Author;
 use App\Models\User;
 
+
 use function Pest\Laravel\delete;
 
 it('can delete an author', function () {
-    $user = User::factory()->create();
-    $token = $user->createToken('TestToken')->plainTextToken;
+    
+    loginAsUser();
 
     $author = Author::factory()->create();
 
-    $response = delete('/api/authors/'.$author->id, [], [
-        'Authorization' => 'Bearer '.$token,
-    ]);
+    $response = $this->delete('/api/authors/'.$author->id);
 
     $response->assertStatus(200);
     $response->assertJson(['message' => 'Author deleted successfully']);
