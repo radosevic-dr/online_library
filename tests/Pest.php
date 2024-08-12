@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\User;
+
 /*
 |--------------------------------------------------------------------------
 | Test Case
@@ -42,7 +44,9 @@ expect()->extend('toBeOne', function () {
 |
 */
 
+function loginAsUser(User $user = null)
 function something()
 {
+   return test()->actingAs($user ?? User::factory()->create());
     // ..
 }
