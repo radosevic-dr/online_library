@@ -1,9 +1,16 @@
 <?php
 
+
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\ResetPasswordController;
+
+
 
 Route::post('/auth/login', [UserController::class, 'login'])->name('user.login');
+Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail']);
+Route::post('/password/reset', [ResetPasswordController::class, 'reset']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/auth/register', [UserController::class, 'register'])->name('user.register');
@@ -18,3 +25,4 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::delete('/auth/user/{user}', [UserController::class, 'delete'])->name('user.delete');
 });
+
