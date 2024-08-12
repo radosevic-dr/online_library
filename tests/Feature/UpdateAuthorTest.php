@@ -1,11 +1,10 @@
 <?php
 
 use App\Models\Author;
-use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
-use function Pest\Laravel\putJson;
+use function Pest\Laravel\postJson;
 
 it('can update an author', function () {
     Storage::fake('public');
@@ -13,9 +12,10 @@ it('can update an author', function () {
     loginAsUser();
 
     $author = Author::factory()->create();
-    $file = UploadedFile::fake()->image('avatar.jpg');
+  
+    $file = UploadedFile::fake()->image('updated_picture.jpg');
 
-    $response = $this->putJson('/api/authors/'.$author->id, [
+    $response = $this->postJson('/api/authors/'.$author->id, [
         'first_name' => 'Jane',
         'last_name' => 'Doe',
         'biography' => 'An updated bio',
@@ -23,6 +23,8 @@ it('can update an author', function () {
     ]);
 
     $response->assertStatus(200);
+
+    
     $response->assertJson([
         'first_name' => 'Jane',
         'last_name' => 'Doe',

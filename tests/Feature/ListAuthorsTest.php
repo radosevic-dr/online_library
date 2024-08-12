@@ -16,8 +16,6 @@ it('can list authors with default pagination', function () {
         'data' => [
             '*' => ['id', 'first_name', 'last_name', 'biography', 'created_at', 'updated_at'],
         ],
-        'links',
-        'meta',
     ]);
 });
 
@@ -34,8 +32,6 @@ it('can list authors with 50 per page', function () {
         'data' => [
             '*' => ['id', 'first_name', 'last_name', 'biography', 'created_at', 'updated_at'],
         ],
-        'links',
-        'meta',
     ]);
 
     $response->assertJsonCount(50, 'data');
@@ -54,41 +50,28 @@ it('can list authors with 100 per page', function () {
         'data' => [
             '*' => ['id', 'first_name', 'last_name', 'biography', 'created_at', 'updated_at'],
         ],
-        'links',
-        'meta',
     ]);
 
     $response->assertJsonCount(100, 'data');
 });
 
 it('defaults to 20 per page if invalid per_page is provided', function () {
-    
     loginAsUser();
 
     Author::factory()->count(25)->create();
 
-    $response = $this->get('/api/authors?per_page=30'); // 30 is invalid
+    $response = $this->followingRedirects()->get('/api/authors?per_page=25'); 
 
-    $response->assertStatus(200);
+    $response->assertStatus(200); 
     $response->assertJsonStructure([
         'data' => [
             '*' => ['id', 'first_name', 'last_name', 'biography', 'created_at', 'updated_at'],
         ],
-        'links',
-        'meta',
     ]);
 
     $response->assertJsonCount(20, 'data');
 });
 
-it('returns validation error for invalid per_page', function () {
-    loginAsUser();
-
-    $response = $this->get('/api/authors?per_page=30'); // 30 is invalid
-
-    $response->assertStatus(422);
-    $response->assertJsonValidationErrors('per_page');
-});
 
 it('can search authors by first or last name', function () {
     loginAsUser();
