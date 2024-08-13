@@ -1,10 +1,7 @@
 <?php
 
-use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-
-use function Pest\Laravel\postJson;
 
 it('can create an author', function () {
     Storage::fake('public');
@@ -25,5 +22,5 @@ it('can create an author', function () {
         'id', 'first_name', 'last_name', 'biography', 'created_at', 'updated_at', 'media',
     ]);
 
-    Storage::disk('public')->assertExists($response["id"]."/".$response["media"][0]["file_name"]);
+    Storage::disk('public')->assertExists($response['id'].'/'.$response['media'][0]['file_name']);
 });

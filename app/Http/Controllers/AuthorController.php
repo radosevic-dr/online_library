@@ -14,22 +14,21 @@ class AuthorController extends Controller
             'per_page' => 'integer|in:20,50,100',
             'search' => 'string|nullable',
         ]);
-    
+
         $perPage = $validated['per_page'] ?? 20;
         $search = $validated['search'] ?? null;
-    
+
         $query = Author::query();
-    
+
         if ($search) {
             $query->where('first_name', 'like', "%$search%")
                 ->orWhere('last_name', 'like', "%$search%");
         }
-    
+
         $authors = $query->paginate($perPage);
-    
+
         return response()->json($authors);
     }
-    
 
     public function show(Author $author)
     {
@@ -76,7 +75,6 @@ class AuthorController extends Controller
             'biography' => 'nullable|string',
             'picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
 
         $data = $request->only(['first_name', 'last_name', 'biography']);
         $author->update($data);

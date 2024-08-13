@@ -1,12 +1,9 @@
 <?php
 
 use App\Models\Author;
-use App\Models\User;
-
-use function Pest\Laravel\get;
 
 it('can retrieve an author', function () {
-    
+
     loginAsUser();
 
     $author = Author::factory()->create();

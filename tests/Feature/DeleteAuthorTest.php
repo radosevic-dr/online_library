@@ -1,9 +1,6 @@
 <?php
 
 use App\Models\Author;
-use App\Models\User;
-use function Pest\Laravel\delete;
-
 
 it('can delete an author', function () {
     loginAsUser();
