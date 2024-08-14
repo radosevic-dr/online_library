@@ -23,7 +23,7 @@ class Publisher extends Model implements HasMedia
         return $this->hasMany(Book::class);
     }
 
-
+    
     public function authors()
     {
         return $this->belongsToMany(Author::class);

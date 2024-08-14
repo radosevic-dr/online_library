@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Publisher;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
@@ -22,4 +21,3 @@ it('creates a new publisher', function () {
     $response->assertStatus(201);
     $this->assertDatabaseHas('publishers', ['name' => 'New Publisher', 'email' => 'publisher@publisher.com']);
 });
-
