@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\User;
+use App\Http\Controllers\Controller;
 use App\Models\Publisher;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use App\Http\Controllers\Controller;
 
 class PublisherController extends Controller
 {
@@ -35,7 +35,6 @@ class PublisherController extends Controller
         }
     }
 
-
     public function viewPublisher($id)
     {
         if (auth()->user()->user_type !== User::USER_TYPE_LIBRARIAN) {
@@ -43,6 +42,7 @@ class PublisherController extends Controller
         }
 
         $publisher = Publisher::findOrFail($id);
+
         return response()->json($publisher);
     }
 

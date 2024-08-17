@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\Api\PublisherController;
-use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\PublisherController;
 
 Route::post('/auth/login', [UserController::class, 'login']);
 
