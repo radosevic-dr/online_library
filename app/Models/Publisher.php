@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-use App\Models\Book;
-use App\Models\Author;
+// use App\Models\Book;
+// use App\Models\Author;
 
 class Publisher extends Model implements HasMedia
 {
@@ -23,8 +23,15 @@ class Publisher extends Model implements HasMedia
         return $this->hasMany(Book::class);
     }
 
-    public function authors()
-    {
-        return $this->belongsToMany(Author::class);
-    }
+    // Relations in Book model
+    // public function publisher()
+    // {
+    //     return $this->belongsTo(Publisher::class);
+    // }
+
+    // Relations in Author model
+    // public function publishers()
+    // {
+    //     return $this->belongsToMany(Publisher::class);
+    // }
 }
