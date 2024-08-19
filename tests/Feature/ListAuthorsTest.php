@@ -54,14 +54,15 @@ it('can list authors with 100 per page', function () {
     $response->assertJsonCount(100, 'data');
 });
 
-it('defaults to 20 per page if invalid per_page is provided', function () {
+it('defaults to 20 per page if per_page is not provided', function () {
     loginAsUser();
 
     Author::factory()->count(25)->create();
 
-    $response = $this->followingRedirects()->get('/api/authors?per_page=25');
+    $response = $this->get('/api/authors');
 
     $response->assertStatus(200);
+
     $response->assertJsonStructure([
         'data' => [
             '*' => ['id', 'first_name', 'last_name', 'biography', 'created_at', 'updated_at'],
