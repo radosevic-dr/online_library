@@ -7,10 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/auth/login', [UserController::class, 'login'])->name('user.login');
 
-// Request password reset link
 Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
-
-// Handle password reset
 Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
 
 Route::middleware('auth:sanctum')->group(function () {
