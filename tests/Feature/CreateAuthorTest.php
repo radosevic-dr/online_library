@@ -22,5 +22,5 @@ it('can create an author', function () {
         'id', 'first_name', 'last_name', 'biography', 'created_at', 'updated_at', 'media',
     ]);
 
-    Storage::disk('public')->assertExists($response['id'].'/'.$response['media'][0]['file_name']);
+    Storage::disk('public')->assertExists($response["media"][0]["id"] . "/" . $response["media"][0]["file_name"]);
 });

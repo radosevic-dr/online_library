@@ -28,5 +28,5 @@ it('can update an author', function () {
         'biography' => 'An updated bio',
     ]);
 
-    Storage::disk('public')->assertExists($response['id'].'/'.$response['media'][0]['file_name']);
+    Storage::disk('public')->assertExists($response["media"][0]["id"] . "/" . $response["media"][0]["file_name"]);
 });
