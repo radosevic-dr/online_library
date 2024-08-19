@@ -33,7 +33,15 @@ it('can register new user', function () {
     expect($newUser->name)->toBeString();
 });
 
+/* ---------- view users test ----------*/
+it('can view users', function () {
+    loginAsUser();
+    $response = $this->getJson(route('user.index', 'librarian'));
+    $response->assertStatus(200);
+});
+
 /* ---------- edit user test ----------*/
+
 it('can edit user', function () {
     loginAsUser();
     $response = $this->putJson(route('user.edit'), [
@@ -49,6 +57,7 @@ it('can edit user', function () {
 });
 
 /* ---------- delete user test ----------*/
+
 it('can delete user', function () {
     loginAsUser();
     $user = User::factory()->create();
