@@ -67,14 +67,14 @@ class UserController extends Controller
 
     public function viewUsers(Request $request, $role)
     {
-        $perPage = $request->input('per_page', 20); 
+        $perPage = $request->input('per_page', 20);
         $searchValue = $request->input('search_value');
 
         $users = User::where('user_type', $role)
             ->where(function ($query) use ($searchValue) {
-                $query->where('name', 'like', '%' . strtolower($searchValue) . '%')
-                    ->orWhere('email', 'like', '%' . strtolower($searchValue) . '%')
-                    ->orWhere('username', 'like', '%' . strtolower($searchValue) . '%');
+                $query->where('name', 'like', '%'.strtolower($searchValue).'%')
+                    ->orWhere('email', 'like', '%'.strtolower($searchValue).'%')
+                    ->orWhere('username', 'like', '%'.strtolower($searchValue).'%');
             })
             ->paginate($perPage);
 
@@ -110,11 +110,21 @@ class UserController extends Controller
             'picture' => ['sometimes', 'file', 'max:5120', 'mimes:jpg,'],
         ]);
 
-        if ($request->has('name')) $user->name = $validatedData['name'];
-        if ($request->has('username')) $user->username = $validatedData['username'];
-        if ($request->has('email')) $user->email = $validatedData['email'];
-        if ($request->has('jmbg')) $user->jmbg = $validatedData['jmbg'];
-        if ($request->has('password')) $user->password = $validatedData['password'];
+        if ($request->has('name')) {
+            $user->name = $validatedData['name'];
+        }
+        if ($request->has('username')) {
+            $user->username = $validatedData['username'];
+        }
+        if ($request->has('email')) {
+            $user->email = $validatedData['email'];
+        }
+        if ($request->has('jmbg')) {
+            $user->jmbg = $validatedData['jmbg'];
+        }
+        if ($request->has('password')) {
+            $user->password = $validatedData['password'];
+        }
 
         if ($request->hasFile('picture')) {
             $user->clearMediaCollection('profile_picture');
