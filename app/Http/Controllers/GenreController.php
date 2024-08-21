@@ -21,7 +21,7 @@ class GenreController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'message' => 'An error occurred while retrieving genres.',
-            ], 400);
+            ], $e->getCode());
         }
     }
 
@@ -42,7 +42,7 @@ class GenreController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'message' => 'An error occurred while creating genre.',
-            ]);
+            ], $e->getCode());
         }
     }
 
@@ -58,7 +58,7 @@ class GenreController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'message' => 'An error occurred while retrieving a single genre.',
-            ]);
+            ], $e->getCode());
         }
     }
 
@@ -80,7 +80,7 @@ class GenreController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'message' => 'An error occurred while updating genre.',
-            ]);
+            ], $e->getCode());
         }
     }
 
@@ -97,7 +97,7 @@ class GenreController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'message' => 'An error occurred while deleting genre.',
-            ]);
+            ], $e->getCode());
         }
     }
 }
