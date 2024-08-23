@@ -4,7 +4,7 @@ use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\AuthorController;
-use App\Http\Controllers\CategoryControlle
+use App\Http\Controllers\CategoryController;
 
 
 
