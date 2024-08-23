@@ -12,7 +12,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-       
+        $middleware->alias([
+            'tokenAuth' => \App\Http\Middleware\TokenAuthMiddleware::class,
+            'checkLibrarian' => \App\Http\Middleware\CheckLibrarian::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

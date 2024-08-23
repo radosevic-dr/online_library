@@ -45,8 +45,9 @@ class AddFirstLibrariand extends Command
             'email' => 'required|email|unique:users',
         ]);
 
-        if($validateLibrarian->fails()){
+        if ($validateLibrarian->fails()) {
             $this->error($validateLibrarian->errors()->first());
+
             return;
         }
 

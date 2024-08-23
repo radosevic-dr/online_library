@@ -129,3 +129,4 @@ php artisan librarian:add
 
 - **main**: This branch is protected and should only contain stable code. Changes to this branch require approval.
 - **development**: This branch is used for developing new features and should contain all changes that are not yet ready for production.
+
