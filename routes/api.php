@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\AuthorController;
+use App\Http\Controllers\PolicyController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/auth/login', [UserController::class, 'login'])->name('user.login');
@@ -22,8 +23,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/authors', [AuthorController::class, 'store']);
     Route::post('/authors/{author}', [AuthorController::class, 'update']);
     Route::delete('/authors/{author}', [AuthorController::class, 'destroy']);
-});
 
-Route::get('/authors', [AuthorController::class, 'index']);
-Route::get('/authors/{author}/picture', [AuthorController::class, 'getPicture']);
-Route::get('/authors/{author}', [AuthorController::class, 'show']);
+    Route::get('/authors', [AuthorController::class, 'index']);
+    Route::get('/authors/{author}/picture', [AuthorController::class, 'getPicture']);
+    Route::get('/authors/{author}', [AuthorController::class, 'show']);
+
+    // Policy routes
+    Route::get('/policies', [PolicyController::class, 'getPolicies']);
+    Route::put('/policies/{id}/edit', [PolicyController::class, 'editPolicyPeriod']);
+});
