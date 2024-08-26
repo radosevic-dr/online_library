@@ -1,26 +1,19 @@
-<?php
+<?php 
 
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ImageController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\CategoryController;
-
-
-
+use App\Http\Controllers\ImageController;
 
 Route::post('/auth/login', [UserController::class, 'login'])->name('user.login');
-Route::apiResource('category', CategoryController::class);
-
-
-Route::post('/upload-icon/{category}', [ImageController::class, 'uploadIcon']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/auth/register', [UserController::class, 'register'])->name('user.register');
     Route::post('/auth/logout', [UserController::class, 'logout'])->name('user.logout');
 
     // pass user id as parameter
-    // dont forget to add logged user bearer token
+    // don't forget to add logged user bearer token
     Route::get('/auth/users/{role}', [UserController::class, 'viewUsers'])->middleware('checkLibrarian')->name('user.index');
     Route::get('/auth/users/{user}', [UserController::class, 'viewUser'])->middleware('checkLibrarian')->name('user.show');
     Route::get('/auth/users/{user}/profile_picture', [UserController::class, 'viewUserProfilePicture'])->middleware('checkLibrarian')->name('user.profilePicture');
@@ -28,9 +21,14 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::delete('/auth/user/{user}', [UserController::class, 'delete'])->name('user.delete');
 
+    // Author routes
     Route::post('/authors', [AuthorController::class, 'store']);
     Route::post('/authors/{author}', [AuthorController::class, 'update']);
     Route::delete('/authors/{author}', [AuthorController::class, 'destroy']);
+
+    // Category routes
+    Route::apiResource('category', CategoryController::class);
+    Route::post('/upload-icon/{category}', [ImageController::class, 'uploadIcon']);
 });
 
 Route::get('/authors', [AuthorController::class, 'index']);

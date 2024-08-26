@@ -9,18 +9,14 @@ use App\Http\Requests\CategoryRequest;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-
 class CategoryController extends Controller
 {
     public function index(Request $request)
     {
-        $data = [
-            'per_page' => 20,
-        ];
-
         $perPageOptions = [20, 50, 100];
+        $perPage = $request->query('per_page', 20); // Default value is 20
 
-        $validator = Validator::make($data, [
+        $validator = Validator::make(['per_page' => $perPage], [
             'per_page' => [
                 'required',
                 'integer',
@@ -30,11 +26,9 @@ class CategoryController extends Controller
 
         if ($validator->fails()) {
             $errors = $validator->errors();
-            return response()->json(['errors' => $errors], 400);
+            return response()->json(['errors' => $errors], 422);
         }
 
-        $perPage = $data['per_page'];
-        
         return CategoryResource::collection(Category::paginate($perPage));
     }
 
@@ -66,6 +60,6 @@ class CategoryController extends Controller
     {
         $category->delete();
 
-        return response(status: 204);
+        return response()->noContent();
     }
 }
