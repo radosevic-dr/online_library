@@ -1,10 +1,10 @@
-<?php 
+<?php
 
 use App\Http\Controllers\Api\UserController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ImageController;
+use Illuminate\Support\Facades\Route;
 
 Route::post('/auth/login', [UserController::class, 'login'])->name('user.login');
 
