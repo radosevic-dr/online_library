@@ -20,12 +20,15 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::delete('/auth/user/{user}', [UserController::class, 'delete'])->name('user.delete');
 
-    Route::apiResource('publisher', PublisherController::class);
+//    Route::apiResource('publisher', PublisherController::class);
+
+Route::get('/publishers', [PublisherController::class, 'index'])->name('publisher.index')->middleware('checkLibrarian');
 
     Route::post('/authors', [AuthorController::class, 'store']);
     Route::post('/authors/{author}', [AuthorController::class, 'update']);
     Route::delete('/authors/{author}', [AuthorController::class, 'destroy']);
 });
+
 
 Route::get('/authors', [AuthorController::class, 'index']);
 Route::get('/authors/{author}/picture', [AuthorController::class, 'getPicture']);
