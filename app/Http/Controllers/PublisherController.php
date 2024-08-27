@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\PublisherResource;
 use App\Models\Publisher;
+use Exception;
 use Illuminate\Http\Request;
 
 class PublisherController extends Controller
@@ -51,12 +52,20 @@ class PublisherController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Publisher $publisher)
+    public function destroy($id)
     {
-        $publisher->delete();
+        try {
+            $publisher = Publisher::findOrFail($id);
 
-        return response()->json([
-            'message' => 'Successfully deleted'
-        ]);
+            $publisher->delete();
+            return response()->json([
+                $publisher,
+                'message' => 'Publisher deleted successfully.'
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => 'An error occurred while deleting publisher.',
+            ], $e->getCode());
+        }
     }
 }
