@@ -45,3 +45,26 @@ it('can upload an icon for a category', function () {
     $category->refresh();
     expect($category->icon)->toBe('icons/'.$file->hashName());
 });
+
+it('can delete a category and its icon', function () {
+    Storage::fake('public');
+
+    loginAsUser();
+
+    $category = Category::factory()->create([
+        'icon' => 'icons/icon.png',
+    ]);
+
+    Storage::disk('public')->put('icons/icon.png', 'icon-content');
+
+    $response = $this->deleteJson('/api/categories/' . $category->id);
+
+    
+    $response->assertStatus(204);
+
+   
+    Storage::disk('public')->assertMissing('icons/icon.png');
+
+    
+    $this->assertDatabaseMissing('categories', ['id' => $category->id]);
+});
