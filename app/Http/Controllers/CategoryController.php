@@ -15,8 +15,11 @@ class CategoryController extends Controller
     {
         $perPageOptions = [20, 50, 100];
         $perPage = $request->query('per_page', 20); // Default value is 20
+        $search = $request->query('search', '');
 
-        $validator = Validator::make(['per_page' => $perPage], [
+        $validator = Validator::make([
+            'per_page' => $perPage,
+        ], [
             'per_page' => [
                 'required',
                 'integer',
@@ -25,12 +28,21 @@ class CategoryController extends Controller
         ]);
 
         if ($validator->fails()) {
-            $errors = $validator->errors();
-
-            return response()->json(['errors' => $errors], 422);
+            return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        return CategoryResource::collection(Category::paginate($perPage));
+        $categoriesQuery = Category::query();
+
+        if ($search) {
+            $categoriesQuery->where(function($query) use ($search) {
+                $query->where('name', 'LIKE', "%{$search}%")
+                      ->orWhere('description', 'LIKE', "%{$search}%");
+            });
+        }
+
+        $categories = $categoriesQuery->paginate($perPage);
+
+        return CategoryResource::collection($categories);
     }
 
     public function store(CategoryRequest $request)
