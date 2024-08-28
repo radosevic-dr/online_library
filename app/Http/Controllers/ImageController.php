@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Support\Facades\Log;
+use App\Http\Resources\CategoryResource;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ImageController extends Controller
 {
@@ -25,5 +28,26 @@ class ImageController extends Controller
         Log::error('No file uploaded');
 
         return response()->json(['error' => 'No file uploaded'], 400);
+    }
+
+    public function updateIcon(Request $request, Category $category)
+    {
+        $request->validate([
+            'icon' => 'required|image|max:5120', // Validate the icon
+        ]);
+
+        // Delete the old icon if it exists
+        if ($category->icon) {
+            Storage::disk('public')->delete($category->icon);
+        }
+
+        // Store the new icon
+        $path = $request->file('icon')->store('icons', 'public');
+
+        // Update the category with the new icon path
+        $category->update(['icon' => $path]);
+
+        // Return the updated category resource
+        return new CategoryResource($category);
     }
 }

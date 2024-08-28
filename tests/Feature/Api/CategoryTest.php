@@ -45,3 +45,47 @@ it('can upload an icon for a category', function () {
     $category->refresh();
     expect($category->icon)->toBe('icons/'.$file->hashName());
 });
+
+it('can update a category', function () {
+    $category = Category::factory()->create([
+        'name' => 'Old Category',
+        'description' => 'Old Description',
+    ]);
+
+    $response = $this->putJson("/api/categories/{$category->id}", [
+        'name' => 'Updated Category',
+        'description' => 'Updated Description',
+    ]);
+
+    $response->assertStatus(200)
+        ->assertJson([
+            'data' => [
+                'name' => 'Updated Category',
+                'description' => 'Updated Description',
+            ]
+        ]);
+});
+
+it('can update the category icon', function () {
+    Storage::fake('public');
+
+    $category = Category::factory()->create();
+
+    $file = UploadedFile::fake()->image('new-icon.jpg');
+
+    $response = $this->postJson("/api/categories/{$category->id}/icon", [
+        'icon' => $file,
+    ]);
+
+    $response->assertStatus(200);
+
+    // Assert the new icon exists in storage
+    Storage::disk('public')->assertExists("icons/{$file->hashName()}");
+
+    // Assert the database was updated
+    $this->assertDatabaseHas('categories', [
+        'id' => $category->id,
+        'icon' => "icons/{$file->hashName()}",
+    ]);
+
+});

@@ -45,16 +45,12 @@ class CategoryController extends Controller
         return new CategoryResource($category);
     }
 
-    public function update(Category $category, Request $request)
+    public function update(CategoryRequest $request, Category $category)
     {
-        $category->update(
-            $request->validate([
-                'name' => 'sometimes|max:500',
-                'description' => 'sometimes|max:500',
-                'icon' => 'nullable|max:5120',
-            ])
-        );
+        // Update category details
+        $category->update($request->validated());
 
+        // Return the updated category resource
         return new CategoryResource($category);
     }
 

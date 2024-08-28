@@ -29,6 +29,9 @@ Route::middleware('auth:sanctum')->group(function () {
     // Category routes
     Route::apiResource('category', CategoryController::class);
     Route::post('/upload-icon/{category}', [ImageController::class, 'uploadIcon']);
+    Route::apiResource('categories', CategoryController::class)->only(['update']);
+    Route::post('/categories/{category}/icon', [ImageController::class, 'updateIcon'])
+        ->name('categories.updateIcon');
 });
 
 Route::get('/authors', [AuthorController::class, 'index']);
