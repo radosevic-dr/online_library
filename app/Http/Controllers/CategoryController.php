@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
-use App\Http\Requests\CategoryRequest;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -26,6 +26,7 @@ class CategoryController extends Controller
 
         if ($validator->fails()) {
             $errors = $validator->errors();
+
             return response()->json(['errors' => $errors], 422);
         }
 
@@ -48,11 +49,12 @@ class CategoryController extends Controller
     {
         $category->update(
             $request->validate([
-                "name" => "sometimes|max:500",
-                "description" => "sometimes|max:500",
-                "icon" => "nullable|max:5120",
+                'name' => 'sometimes|max:500',
+                'description' => 'sometimes|max:500',
+                'icon' => 'nullable|max:5120',
             ])
         );
+
         return new CategoryResource($category);
     }
 
