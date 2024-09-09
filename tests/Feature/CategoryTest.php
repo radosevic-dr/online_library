@@ -46,6 +46,42 @@ it('can upload an icon for a category', function () {
     expect($category->icon)->toBe('icons/'.$file->hashName());
 });
 
+it('can view category details', function () {
+    loginAsUser();
+
+    $category = Category::factory()->create([
+        'name' => 'Novels',
+        'description' => 'A collection of novels.',
+    ]);
+
+    $response = $this->get('/api/categories/'.$category->id);
+
+    $response->assertStatus(200);
+    $response->assertJson([
+        'name' => 'Novels',
+        'description' => 'A collection of novels.',
+    ]);
+});
+
+it('can return category icon', function () {
+    Storage::fake('public');
+
+    loginAsUser();
+
+    $category = Category::factory()->create([
+        'name' => 'Novels',
+        'description' => 'A collection of novels.',
+        'icon' => 'icons/icon.png',
+    ]);
+
+    Storage::disk('public')->put('icons/icon.png', 'icon-content');
+
+    $response = $this->get('/api/categories/'.$category->id.'/icon');
+
+    $response->assertStatus(200);
+    $response->assertHeader('Content-Type', 'image/png');
+});
+
 it('can delete a category and its icon', function () {
     Storage::fake('public');
 
