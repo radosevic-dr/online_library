@@ -48,3 +48,7 @@ function loginAsUser(?User $user = null)
 {
     return test()->actingAs($user ?? User::factory()->create());
 }
+function something()
+{
+    // ..
+}

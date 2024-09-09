@@ -6,6 +6,7 @@ use App\Http\Requests\CategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -55,6 +56,15 @@ class CategoryController extends Controller
     public function show(Category $category)
     {
         return new CategoryResource($category);
+    }
+
+    public function showIcon(Category $category)
+    {
+        if ($category->icon && Storage::disk('public')->exists($category->icon)) {
+            return response()->download(storage_path('app/public/'.$category->icon));
+        }
+
+        return response()->json(['error' => 'Icon not found'], 404);
     }
 
     public function update(Category $category, Request $request)
