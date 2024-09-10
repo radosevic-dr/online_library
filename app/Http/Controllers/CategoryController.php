@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Http\Response;
 
 class CategoryController extends Controller
 {
@@ -67,8 +68,15 @@ class CategoryController extends Controller
 
     public function destroy(Category $category)
     {
+     
+        if ($category->icon && Storage::disk('public')->exists($category->icon)) {
+            Storage::disk('public')->delete($category->icon);
+        }
+
+        
         $category->delete();
 
-        return response()->noContent();
+        
+        return response()->json(['message' => 'Category deleted successfully'], Response::HTTP_NO_CONTENT);
     }
 }
