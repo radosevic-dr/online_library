@@ -42,6 +42,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
     Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('category.show');
     Route::get('/categories/{category}/icon', [CategoryController::class, 'showIcon'])->name('category.icon');
+
+
+    Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('category.destroy');
+
 });
 
 Route::get('/authors', [AuthorController::class, 'index']);

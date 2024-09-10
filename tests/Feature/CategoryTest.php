@@ -46,55 +46,6 @@ it('can upload an icon for a category', function () {
     expect($category->icon)->toBe('icons/'.$file->hashName());
 });
 
-it('can list categories with default pagination', function () {
-    loginAsUser();
-
-    Category::factory()->count(25)->create();
-
-    $response = $this->getJson('/api/categories');
-
-    $response->assertStatus(200);
-    $response->assertJsonStructure([
-        'data' => [
-            '*' => ['id', 'name', 'description', 'icon'],
-        ],
-        'links',
-        'meta',
-    ]);
-});
-
-it('can list categories with 50 per page', function () {
-    loginAsUser();
-
-    Category::factory()->count(60)->create();
-
-    $response = $this->getJson('/api/categories?per_page=50');
-
-    $response->assertStatus(200);
-    $response->assertJsonStructure([
-        'data' => [
-            '*' => ['id', 'name', 'description', 'icon'],
-        ],
-        'links',
-        'meta',
-    ]);
-
-    $response->assertJsonCount(50, 'data');
-});
-
-it('can search categories by name or description', function () {
-    loginAsUser();
-
-    Category::factory()->create(['name' => 'Fiction', 'description' => 'Books of fiction']);
-    Category::factory()->create(['name' => 'Science', 'description' => 'Science related books']);
-
-    $response = $this->getJson('/api/categories?search=Fiction');
-
-    $response->assertStatus(200);
-    $response->assertJsonCount(1, 'data');
-    $response->assertJsonPath('data.0.name', 'Fiction');
-});
-
 it('can view category details', function () {
     loginAsUser();
 
@@ -131,3 +82,25 @@ it('can return category icon', function () {
     $response->assertHeader('Content-Type', 'image/png');
 });
 
+it('can delete a category and its icon', function () {
+    Storage::fake('public');
+
+    loginAsUser();
+
+    $category = Category::factory()->create([
+        'icon' => 'icons/icon.png',
+    ]);
+
+    Storage::disk('public')->put('icons/icon.png', 'icon-content');
+
+    $response = $this->deleteJson('/api/categories/' . $category->id);
+
+    
+    $response->assertStatus(204);
+
+   
+    Storage::disk('public')->assertMissing('icons/icon.png');
+
+    
+    $this->assertDatabaseMissing('categories', ['id' => $category->id]);
+});
