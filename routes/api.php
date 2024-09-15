@@ -11,6 +11,10 @@ Route::post('/auth/login', [UserController::class, 'login'])->name('user.login')
 Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
 Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
 
+Route::get('/reset-password/{token}', function (string $token) {
+    return ['token' => $token];
+})->middleware('guest')->name('password.reset');
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/auth/register', [UserController::class, 'register'])->name('user.register');
     Route::post('/auth/logout', [UserController::class, 'logout'])->name('user.logout');
