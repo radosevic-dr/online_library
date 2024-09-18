@@ -22,13 +22,17 @@ class PublisherController extends Controller
             'phone' => ['required', 'numeric'],
         ]);
 
-        $publisher = Publisher::create($validatedData);
+        try {
+            $publisher = Publisher::create($validatedData);
 
-        if ($request->hasFile('logo')) {
+            if ($request->hasFile('logo')) {
             $publisher->addMedia($request->file('logo'))->toMediaCollection('logo');
-        }
+            }
 
-        return response()->json($publisher);
+            return response()->json($publisher);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to create publisher', 'message' => $e->getMessage()], 500);
+        }
     }
 
     public function viewPublisher($id)
