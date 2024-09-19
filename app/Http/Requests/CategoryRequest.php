@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace App\Http\Requests;
 
@@ -17,14 +17,14 @@ class CategoryRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, mixed>
      */
     public function rules(): array
     {
         return [
             'name' => 'required|max:500',
             'description' => 'required|max:500',
-            'icon' => 'nullable|max:5120',
+            'icon' => 'nullable|image|max:5120', // Ensure icon is an image and no larger than 5MB
         ];
     }
 }
