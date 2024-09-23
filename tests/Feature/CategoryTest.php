@@ -87,6 +87,8 @@ it('can update the category icon', function () {
         'id' => $category->id,
         'icon' => "icons/{$file->hashName()}",
     ]);
+
+});
   
 it('can view category details', function () {
     loginAsUser();
