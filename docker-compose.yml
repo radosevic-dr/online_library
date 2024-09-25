@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   mysql:
     image: mysql:8.0
@@ -13,7 +11,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - /d/CODE/PROJECTS/online_library/mysql_data:/var/lib/mysql
+      - C:/Users/Korisnik/VOJISLAV VUKOTIC/Ucenje i posao/Samostalna edukacija/Computer Science/CORTEX Academy/Ciklus 2024/ONLINE BIBLIOTEKA/online_library/mysql_data:/var/lib/mysql
 
   adminer:
     image: adminer
