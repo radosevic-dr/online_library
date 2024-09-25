@@ -17,8 +17,9 @@ return new class extends Migration
             $table->foreign('book_id')->references('id')->on('books');
             $table->timestamp('rented_at');
             $table->unsignedBigInteger('student_id');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->unsignedBigInteger('user_id');
+            $table->foreign('student_id')->references('id')->on('students');
+            $table->unsignedBigInteger('librarian_id');
+            $table->foreign('librarian_id')->references('id')->on('users');
             $table->timestamp('returned_at')->nullable();
             $table->timestamps();
         });
