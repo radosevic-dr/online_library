@@ -16,14 +16,18 @@ class PolicyController extends Controller
 
     public function editPolicyPeriod(Request $request, $id)
     {
+        $validatedData = $request->validate([
+            'period' => 'required|integer|min:1',
+        ]);
+
         $policy = Policy::findOrFail($id);
-        $period = $request->input('period');
+        $period = $validatedData['period'];
 
-        if ($period <= 0) {
-            return response()->json(['error' => 'Policy period cannot be 0 or negative'], 400);
+        try {
+            $policy->update(['period' => $period]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to update policy period'], 500);
         }
-
-        $policy->update(['period' => $period]);
 
         return response()->json($policy);
     }
