@@ -18,6 +18,10 @@ Route::get('/reset-password/{token}', function (string $token) {
     return ['token' => $token];
 })->middleware('guest')->name('password.reset');
 
+Route::get('/authors', [AuthorController::class, 'index']);
+Route::get('/authors/{author}/picture', [AuthorController::class, 'getPicture']);
+Route::get('/authors/{author}', [AuthorController::class, 'show']);
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/auth/register', [UserController::class, 'register'])->name('user.register');
     Route::post('/auth/logout', [UserController::class, 'logout'])->name('user.logout');
@@ -31,13 +35,13 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('genres/{id}', [GenreController::class, 'destroy'])->name('genres.destroy');
     });
 
-    // pass user id as parameter
-    // don't forget to add logged user bearer token
     Route::get('/auth/users/{role}', [UserController::class, 'viewUsers'])->middleware('checkLibrarian')->name('user.index');
     Route::get('/auth/users/{user}', [UserController::class, 'viewUser'])->middleware('checkLibrarian')->name('user.show');
     Route::get('/auth/users/{user}/profile_picture', [UserController::class, 'viewUserProfilePicture'])->middleware('checkLibrarian')->name('user.profilePicture');
     Route::put('/auth/user/update', [UserController::class, 'editUser'])->name('user.edit');
     Route::delete('/auth/user/{user}', [UserController::class, 'delete'])->name('user.delete');
+    //Routes for new Librarian Creation and setting password
+    
 
     // Author routes
     Route::post('/authors', [AuthorController::class, 'store']);
@@ -62,6 +66,6 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 
-Route::get('/authors', [AuthorController::class, 'index']);
-Route::get('/authors/{author}/picture', [AuthorController::class, 'getPicture']);
-Route::get('/authors/{author}', [AuthorController::class, 'show']);
+
+
+
