@@ -19,4 +19,4 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-mysql_data/mysql.sock
+/mysql_data
