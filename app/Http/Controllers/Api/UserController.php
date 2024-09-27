@@ -13,25 +13,24 @@ use Laravel\Sanctum\Sanctum;
 class UserController extends Controller
 {
     public function register(Request $request)
-    {
-        $validateNewUser = $request->validate([
-            'name' => ['required'],
-            'username' => ['required', Rule::unique('users', 'username')],
-            'email' => ['required', 'email', Rule::unique('users', 'email')],
-            'jmbg' => ['required', 'min:13', 'max:13', Rule::unique('users', 'jmbg'), 'regex:/^[0-9]+$/'],
-            'password' => ['required', 'min:8', 'max:16'],
-            'user_type' => ['required', Rule::in([User::USER_TYPE_LIBRARIAN, User::USER_TYPE_STUDENT])],
-            'picture' => ['file', 'max:5120'],
-        ]);
+{
+    $validateNewUser = $request->validate([
+        'name' => ['required'],
+        'username' => ['required', Rule::unique('users', 'username')],
+        'email' => ['required', 'email', Rule::unique('users', 'email')],
+        'jmbg' => ['required', 'min:13', 'max:13', Rule::unique('users', 'jmbg'), 'regex:/^[0-9]+$/'],
+        'password' => ['required', 'min:8', 'max:16'],
+        'user_type' => ['required', Rule::in([User::USER_TYPE_LIBRARIAN, User::USER_TYPE_STUDENT])],
+        'picture' => ['file', 'max:5120'],
+    ]);
 
-        $user = User::create($validateNewUser);
+    $user = User::create($validateNewUser);
 
-        if ($request->hasFile('picture')) {
-            $user->addMedia($request->file('picture'))->toMediaCollection('profile_picture');
-        }
+    // Dispatch the LibrarianCreated event to send the password reset email
+    event(new LibrarianCreated($user));
 
-        return $user;
-    }
+    return $user;
+}
 
     public function login(Request $request)
     {

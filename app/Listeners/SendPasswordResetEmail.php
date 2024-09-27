@@ -3,19 +3,16 @@
 namespace App\Listeners;
 
 use App\Events\LibrarianCreated;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\LibraryEmail;
+use Illuminate\Support\Facades\Password;
 
 class SendPasswordResetEmail
 {
-    /**
-     * Handle the event.
-     */
-    public function handle(LibrarianCreated $event): void
+    public function handle(LibrarianCreated $event)
     {
-        $user = $event->user;
+        $token = Password::createToken($event->user);
+        $url = route('password.reset', ['token' => $token, 'email' => $event->user->email]);
 
-        // Send the email using the correct Mailable class
-        Mail::to($user->email)->send(new LibraryEmail($user->name));
+        // Send the password reset email with the generated token
+        $event->user->sendPasswordResetNotification($token);
     }
 }
