@@ -1,11 +1,11 @@
 <?php
 
 use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\GenreController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\GenreController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ResetPasswordController;
 use Illuminate\Support\Facades\Route;
 
@@ -41,7 +41,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/auth/user/update', [UserController::class, 'editUser'])->name('user.edit');
     Route::delete('/auth/user/{user}', [UserController::class, 'delete'])->name('user.delete');
     //Routes for new Librarian Creation and setting password
-    
 
     // Author routes
     Route::post('/authors', [AuthorController::class, 'store']);
@@ -50,22 +49,17 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Category routes
     Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
-  
+
     Route::apiResource('category', CategoryController::class);
-    Route::post('/upload-icon/{category}', [ImageController::class, 'uploadIcon']);   
+    Route::post('/upload-icon/{category}', [ImageController::class, 'uploadIcon']);
 
     Route::apiResource('categories', CategoryController::class)->only(['update']);
     Route::post('/categories/{category}/icon', [ImageController::class, 'updateIcon'])
         ->name('categories.updateIcon');
-    
+
     Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('category.show');
     Route::get('/categories/{category}/icon', [CategoryController::class, 'showIcon'])->name('category.icon');
-  
+
     Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('category.destroy');
 
 });
-
-
-
-
-
