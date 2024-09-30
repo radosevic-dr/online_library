@@ -10,15 +10,12 @@ services:
       MYSQL_PASSWORD: laravel
     ports:
       - "3306:3306"
-    volumes:
-      - C:/Users/Korisnik/VOJISLAV VUKOTIC/Ucenje i posao/Samostalna edukacija/Computer Science/CORTEX Academy/Ciklus 2024/ONLINE BIBLIOTEKA/online_library/mysql_data:/var/lib/mysql
 
   adminer:
     image: adminer
     container_name: laravel_adminer
     restart: unless-stopped
     ports:
-      - 8080:8080
+      - "8080:8080"
 
-volumes:
-  mysql_data:
+
