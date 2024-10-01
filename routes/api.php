@@ -39,7 +39,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/auth/users/{user}/profile_picture', [UserController::class, 'viewUserProfilePicture'])->middleware('checkLibrarian')->name('user.profilePicture');
     Route::put('/auth/user/update', [UserController::class, 'editUser'])->name('user.edit');
     Route::delete('/auth/user/{user}', [UserController::class, 'delete'])->name('user.delete');
-
+  
     // Publisher routes
 
     Route::post('/auth/publishers/create', [PublisherController::class, 'createPublisher'])->name('publishers.create');
@@ -47,9 +47,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/auth/publishers/{publisher}/logo', [PublisherController::class, 'getPublisherLogo'])->name('publishers.logo');
 
     // Author routes
+t
     Route::post('/authors', [AuthorController::class, 'store']);
     Route::post('/authors/{author}', [AuthorController::class, 'update']);
     Route::delete('/authors/{author}', [AuthorController::class, 'destroy']);
+
+    Route::get('/authors', [AuthorController::class, 'index']);
+    Route::get('/authors/{author}/picture', [AuthorController::class, 'getPicture']);
+    Route::get('/authors/{author}', [AuthorController::class, 'show']);
+});
 
     // Category routes
     Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
@@ -72,4 +78,3 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::get('/authors', [AuthorController::class, 'index']);
 Route::get('/authors/{author}/picture', [AuthorController::class, 'getPicture']);
 Route::get('/authors/{author}', [AuthorController::class, 'show']);
-
