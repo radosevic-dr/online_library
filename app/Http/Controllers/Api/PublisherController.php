@@ -5,31 +5,50 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Publisher;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class PublisherController extends Controller
 {
-    public function viewPublisher($id){
-        $publisher = Publisher::find($id);
-        if(!$publisher){
-            return response()->json(['errorr' => 'Publisher not found'], 404);
-        }
+    public function createPublisher(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => ['required', 'max:255', Rule::unique('publishers', 'name')],
+            'logo' => ['required', 'file', 'mimes:jpeg,jpg,png,svg', 'max:1024'],
+            'address' => ['required'],
+            'website' => ['required', 'url'],
+            'established_year' => ['required', 'integer'],
+            'email' => ['required', 'email', Rule::unique('publishers', 'email')],
+            'phone' => ['required', 'numeric'],
+        ]);
 
-        return response()->json($publisher, 200);
+        try {
+            $publisher = Publisher::create($validatedData);
+
+            if ($request->hasFile('logo')) {
+                $publisher->addMedia($request->file('logo'))->toMediaCollection('logo');
+
+                $publisher->addMedia($request->file('logo'))->toMediaCollection('logo');
+            }
+
+            return response()->json($publisher);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'An error occurred while trying to create the publisher'], 500);
+        }
     }
 
-    public function viewLogo($id){
-        $publisher = Publisher::find($id);
-
-        if (!$publisher) {
-            return response()->json(['error' => 'Publisher not found'], 404);
+    public function viewPublisher($id)
+    {
+        if (auth()->user()->user_type !== User::USER_TYPE_LIBRARIAN) {
+            return response()->json(['error' => 'Unauthorized'], 422);
         }
 
-        $logo = $publisher->getFirstMedia('logo');
+        $publisher = Publisher::findOrFail($id);
 
-        if (!$logo) {
-            return response()->json(['error' => 'Publisher logo not found'], 404);
-        }
+        return response()->json($publisher);
+    }
 
-        return response()->file($logo->getPath());
+    public function getPublisherLogo(Publisher $publisher)
+    {
+        return $publisher->getFirstMediaUrl('logo');
     }
 }

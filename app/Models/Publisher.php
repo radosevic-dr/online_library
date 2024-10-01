@@ -1,14 +1,13 @@
 <?php
 
 namespace App\Models;
-
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 // use App\Models\Book;
-// use App\Models\Author;
+use App\Models\Author;
 
 class Publisher extends Model implements HasMedia
 {
@@ -27,7 +26,6 @@ class Publisher extends Model implements HasMedia
 
     protected $fillable = [
         'name', 'address', 'website', 'email', 'phone', 'established_year'
-    ];
 
     // public function books()
     // {
@@ -49,5 +47,17 @@ class Publisher extends Model implements HasMedia
     // public function publishers()
     // {
     //     return $this->belongsToMany(Publisher::class);
+
     // }
+
+    // public function books()
+    // {
+    //     return $this->hasMany(Book::class);
+    // }
+
+    public function authors()
+    {
+        return $this->belongsToMany(Author::class);
+    }
+
 }
