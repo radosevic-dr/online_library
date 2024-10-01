@@ -27,6 +27,8 @@ class PublisherController extends Controller
 
             if ($request->hasFile('logo')) {
                 $publisher->addMedia($request->file('logo'))->toMediaCollection('logo');
+
+                $publisher->addMedia($request->file('logo'))->toMediaCollection('logo');
             }
 
             return response()->json($publisher);
