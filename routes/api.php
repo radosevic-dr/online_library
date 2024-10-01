@@ -1,5 +1,4 @@
 <?php
-
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\AuthorController;
@@ -8,6 +7,7 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\PublisherController;
 
 Route::post('/auth/login', [UserController::class, 'login'])->name('user.login');
 
@@ -40,6 +40,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/auth/user/update', [UserController::class, 'editUser'])->name('user.edit');
     Route::delete('/auth/user/{user}', [UserController::class, 'delete'])->name('user.delete');
 
+    // Publisher routes
+
+    Route::post('/auth/publishers/create', [PublisherController::class, 'createPublisher'])->name('publishers.create');
+    Route::get('/auth/publishers/{id}', [PublisherController::class, 'viewPublisher'])->middleware('checkLibrarian')->name('publishers.view');
+    Route::get('/auth/publishers/{publisher}/logo', [PublisherController::class, 'getPublisherLogo'])->name('publishers.logo');
+
     // Author routes
     Route::post('/authors', [AuthorController::class, 'store']);
     Route::post('/authors/{author}', [AuthorController::class, 'update']);
@@ -66,3 +72,4 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::get('/authors', [AuthorController::class, 'index']);
 Route::get('/authors/{author}/picture', [AuthorController::class, 'getPicture']);
 Route::get('/authors/{author}', [AuthorController::class, 'show']);
+

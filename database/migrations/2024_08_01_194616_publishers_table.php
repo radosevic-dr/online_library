@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('publishers', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->unique();
             $table->string('address');
             $table->string('website');
-            $table->string('email');
-            $table->string('phone');
+            $table->string('email')->unique();
+            $table->string('phone', 20);
             $table->unsignedInteger('established_year');
             $table->timestamps();
         });
