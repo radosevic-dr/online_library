@@ -20,3 +20,5 @@ yarn-error.log
 /.idea
 /.vscode
 mysql_data/mysql.sock
+mysql_data
+mysql_data/*

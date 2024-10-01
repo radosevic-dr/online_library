@@ -4,24 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
 
 // use App\Models\Book;
-// use App\Models\Author;
+use App\Models\Author;
 
-class Publisher extends Model implements HasMedia
+class Publisher extends Model
 {
-    use HasFactory, InteractsWithMedia;
+    use HasFactory;
 
     protected $fillable = [
         'name', 'address', 'website', 'email', 'phone', 'established_year',
     ];
 
-    public function books()
-    {
-        return $this->hasMany(Book::class);
-    }
+    // public function books()
+    // {
+    //     return $this->hasMany(Book::class);
+    // }
 
     // Relations in Book model
     // public function publisher()
@@ -33,5 +31,16 @@ class Publisher extends Model implements HasMedia
     // public function publishers()
     // {
     //     return $this->belongsToMany(Publisher::class);
+
     // }
+
+    // public function books()
+    // {
+    //     return $this->hasMany(Book::class);
+    // }
+
+    public function authors()
+    {
+        return $this->belongsToMany(Author::class);
+    }
 }

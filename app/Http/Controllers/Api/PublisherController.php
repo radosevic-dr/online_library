@@ -26,12 +26,14 @@ class PublisherController extends Controller
             $publisher = Publisher::create($validatedData);
 
             if ($request->hasFile('logo')) {
-            $publisher->addMedia($request->file('logo'))->toMediaCollection('logo');
+                $publisher->addMedia($request->file('logo'))->toMediaCollection('logo');
+
+                $publisher->addMedia($request->file('logo'))->toMediaCollection('logo');
             }
 
             return response()->json($publisher);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to create publisher', 'message' => $e->getMessage()], 500);
+            return response()->json(['error' => 'An error occurred while trying to create the publisher'], 500);
         }
     }
 
