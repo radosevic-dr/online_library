@@ -3,11 +3,9 @@
 namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
 
 // use App\Models\Book;
-// use App\Models\Author;
+use App\Models\Author;
 
 class Publisher extends Model
 {
@@ -38,8 +36,8 @@ class Publisher extends Model
     //     return $this->hasMany(Book::class);
     // }
 
-    // public function authors()
-    // {
-    //     return $this->belongsToMany(Author::class);
-    // }
+    public function authors()
+    {
+        return $this->belongsToMany(Author::class);
+    }
 }
