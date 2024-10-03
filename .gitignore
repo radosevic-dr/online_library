@@ -20,4 +20,4 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-\online_library\.env.testing
+mysql_data/mysql.sock
