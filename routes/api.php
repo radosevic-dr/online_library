@@ -2,11 +2,13 @@
 
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\AuthorController;
+use App\Http\Controllers\PolicyController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ResetPasswordController;
+
 use Illuminate\Support\Facades\Route;
 
 Route::post('/auth/login', [UserController::class, 'login'])->name('user.login');
@@ -47,6 +49,17 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/authors/{author}', [AuthorController::class, 'update']);
     Route::delete('/authors/{author}', [AuthorController::class, 'destroy']);
 
+
+    Route::get('/authors', [AuthorController::class, 'index']);
+    Route::get('/authors/{author}/picture', [AuthorController::class, 'getPicture']);
+    Route::get('/authors/{author}', [AuthorController::class, 'show']);
+
+    // Policy routes
+    Route::get('/policies', [PolicyController::class, 'getPolicies']);
+    Route::put('/policies/{id}/edit', [PolicyController::class, 'editPolicyPeriod']);
+});
+
+
     // Category routes
     Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
 
@@ -63,3 +76,4 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('category.destroy');
 
 });
+
