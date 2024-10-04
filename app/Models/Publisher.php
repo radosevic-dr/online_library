@@ -26,28 +26,12 @@ class Publisher extends Model implements HasMedia
 
     protected $fillable = [
         'name', 'address', 'website', 'email', 'phone', 'established_year'
-
-    // public function books()
-    // {
-    //     return $this->hasMany(Book::class);
-    // }
-
-    // public function authors()
-    // {
-    //     return $this->belongsToMany(Author::class);
-    // }
+    ];
 
     // Relations in Book model
     // public function publisher()
     // {
     //     return $this->belongsTo(Publisher::class);
-    // }
-
-    // Relations in Author model
-    // public function publishers()
-    // {
-    //     return $this->belongsToMany(Publisher::class);
-
     // }
 
     // public function books()
