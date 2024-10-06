@@ -1,13 +1,15 @@
 <?php
-use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\GenreController;
-use App\Http\Controllers\AuthorController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ImageController;
-use App\Http\Controllers\ForgotPasswordController;
-use App\Http\Controllers\ResetPasswordController;
+
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BookController;
+use App\Http\Controllers\GenreController;
+use App\Http\Controllers\ImageController;
+use App\Http\Controllers\AuthorController;
+use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Api\PublisherController;
+use App\Http\Controllers\ResetPasswordController;
+use App\Http\Controllers\ForgotPasswordController;
 
 Route::post('/auth/login', [UserController::class, 'login'])->name('user.login');
 
@@ -31,30 +33,34 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('genres/{id}', [GenreController::class, 'update'])->name('genres.update');
         Route::delete('genres/{id}', [GenreController::class, 'destroy'])->name('genres.destroy');
 
-    // pass user id as parameter
-    // don't forget to add logged user bearer token
-    Route::get('/auth/users/{role}', [UserController::class, 'viewUsers'])->middleware('checkLibrarian')->name('user.index');
-    Route::get('/auth/users/{user}', [UserController::class, 'viewUser'])->middleware('checkLibrarian')->name('user.show');
-    Route::get('/auth/users/{user}/profile_picture', [UserController::class, 'viewUserProfilePicture'])->middleware('checkLibrarian')->name('user.profilePicture');
-    Route::put('/auth/user/update', [UserController::class, 'editUser'])->name('user.edit');
-    Route::delete('/auth/user/{user}', [UserController::class, 'delete'])->name('user.delete');
+        // pass user id as parameter
+        // don't forget to add logged user bearer token
+        Route::get('/auth/users/{role}', [UserController::class, 'viewUsers'])->middleware('checkLibrarian')->name('user.index');
+        Route::get('/auth/users/{user}', [UserController::class, 'viewUser'])->middleware('checkLibrarian')->name('user.show');
+        Route::get('/auth/users/{user}/profile_picture', [UserController::class, 'viewUserProfilePicture'])->middleware('checkLibrarian')->name('user.profilePicture');
+        Route::put('/auth/user/update', [UserController::class, 'editUser'])->name('user.edit');
+        Route::delete('/auth/user/{user}', [UserController::class, 'delete'])->name('user.delete');
 
-    // Publisher routes
+        // Publisher routes
 
-    Route::post('/auth/publishers/create', [PublisherController::class, 'createPublisher'])->name('publishers.create');
-    Route::get('/auth/publishers/{id}', [PublisherController::class, 'viewPublisher'])->middleware('checkLibrarian')->name('publishers.view');
-    Route::get('/auth/publishers/{publisher}/logo', [PublisherController::class, 'getPublisherLogo'])->name('publishers.logo');
+        Route::post('/auth/publishers/create', [PublisherController::class, 'createPublisher'])->name('publishers.create');
+        Route::get('/auth/publishers/{id}', [PublisherController::class, 'viewPublisher'])->middleware('checkLibrarian')->name('publishers.view');
+        Route::get('/auth/publishers/{publisher}/logo', [PublisherController::class, 'getPublisherLogo'])->name('publishers.logo');
 
-    // Author routes
+        // Author routes
 
-    Route::post('/authors', [AuthorController::class, 'store']);
-    Route::post('/authors/{author}', [AuthorController::class, 'update']);
-    Route::delete('/authors/{author}', [AuthorController::class, 'destroy']);
+        Route::post('/authors', [AuthorController::class, 'store']);
+        Route::post('/authors/{author}', [AuthorController::class, 'update']);
+        Route::delete('/authors/{author}', [AuthorController::class, 'destroy']);
 
-    Route::get('/authors', [AuthorController::class, 'index']);
-    Route::get('/authors/{author}/picture', [AuthorController::class, 'getPicture']);
-    Route::get('/authors/{author}', [AuthorController::class, 'show']);
-});
+        Route::get('/authors', [AuthorController::class, 'index']);
+        Route::get('/authors/{author}/picture', [AuthorController::class, 'getPicture']);
+        Route::get('/authors/{author}', [AuthorController::class, 'show']);
+
+        // Book routes
+/*************  ✨ Codeium Command ⭐  *************/
+        Route::post('/rent-a-book', [BookController::class, 'rent']);
+    });
 
     // Category routes
     Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
@@ -70,7 +76,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/categories/{category}/icon', [CategoryController::class, 'showIcon'])->name('category.icon');
 
     Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('category.destroy');
-
 });
 
 Route::get('/authors', [AuthorController::class, 'index']);
