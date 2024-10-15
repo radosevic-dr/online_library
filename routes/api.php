@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\GenreController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordController;
@@ -10,7 +11,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PublisherController;
 
 Route::post('/auth/login', [UserController::class, 'login'])->name('user.login');
-
 
 Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
 Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
@@ -20,11 +20,6 @@ Route::get('/reset-password/{token}', function (string $token) {
 })->middleware('guest')->name('password.reset');
 
 Route::middleware('auth:sanctum')->group(function () {
-<<<<<<<<< Temporary merge branch 1
-    Route::post('/auth/register', [UserController::class, 'register']);
-    Route::post('/auth/logout', [UserController::class, 'logout']);
-});
-=========
     Route::post('/auth/register', [UserController::class, 'register'])->name('user.register');
     Route::post('/auth/logout', [UserController::class, 'logout'])->name('user.logout');
 
@@ -47,48 +42,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/auth/user/{user}', [UserController::class, 'delete'])->name('user.delete');
 
     // Publisher routes
-
     Route::post('/auth/publishers/create', [PublisherController::class, 'createPublisher'])->name('publishers.create');
     Route::get('/auth/publishers/{id}', [PublisherController::class, 'viewPublisher'])->middleware('checkLibrarian')->name('publishers.view');
-    Route::get('/auth/publishers/{publisher}/logo', [PublisherController::class, 'getPublisherLogo'])->name('publishers.logo');
-
-    // Author routes
-t
-//    Route::apiResource('publisher', PublisherController::class);
-
-
-    Route::post('/authors', [AuthorController::class, 'store']);
-    Route::post('/authors/{author}', [AuthorController::class, 'update']);
-    Route::delete('/authors/{author}', [AuthorController::class, 'destroy']);
-});
-    Route::delete('/publishers/{id}', [PublisherController::class, 'destroy'])->name('publisher.delete');
-
-    Route::get('/authors', [AuthorController::class, 'index']);
-    Route::get('/authors/{author}/picture', [AuthorController::class, 'getPicture']);
-    Route::get('/authors/{author}', [AuthorController::class, 'show']);
-});
-
-    // Category routes
-    Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
-
-    Route::apiResource('category', CategoryController::class);
-    Route::post('/upload-icon/{category}', [ImageController::class, 'uploadIcon']);
-
-    Route::apiResource('categories', CategoryController::class)->only(['update']);
-    Route::post('/categories/{category}/icon', [ImageController::class, 'updateIcon'])
-        ->name('categories.updateIcon');
-Route::get('/authors', [AuthorController::class, 'index']);
-Route::get('/authors/{author}/picture', [AuthorController::class, 'getPicture']);
-Route::get('/authors/{author}', [AuthorController::class, 'show']);
-
-    Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('category.show');
-    Route::get('/categories/{category}/icon', [CategoryController::class, 'showIcon'])->name('category.icon');
-
-    Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('category.destroy');
 
 });
 
-
-Route::get('/authors', [AuthorController::class, 'index']);
-Route::get('/authors/{author}/picture', [AuthorController::class, 'getPicture']);
-Route::get('/authors/{author}', [AuthorController::class, 'show']);
