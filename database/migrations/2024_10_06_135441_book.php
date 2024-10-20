@@ -23,6 +23,11 @@ return new class extends Migration
             $table->enum('script', array_keys(Book::SCRIPTS))->index();
             $table->enum('binding', array_keys(Book::BINDINGS))->index();
             $table->enum('dimensions', array_keys(Book::DIMENSIONS))->index();
+
+            $table->foreignId('user_id')->nullable(); 
+            $table->date('due_date')->nullable(); 
+            $table->timestamp('returned_at')->nullable(); 
+            
             $table->timestamps();
         });
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -43,7 +44,7 @@ class BookController extends Controller
         ]);
     }
 
-    
+
     public function showBookRentalHistory(Request $request)
     {
         $request->validate([
@@ -57,11 +58,33 @@ class BookController extends Controller
         return $book->rentals;
     }
 
-    
+
     public function userRentalHistory(Book $book)
     {
         $this->authorize('librarian', auth()->user());
 
         return $book->rentals;
+    }
+
+    public function rentalBookChart()
+    {
+        $currentDate = Carbon::now();
+
+        //Rented books but not overdue
+        $totalRentedOutNotOverdue = Book::whereNotNull('user_id')
+            ->whereNull('returned_at') 
+            ->where('due_date', '>=', $currentDate) 
+            ->count();
+
+        //Rented and overdue
+        $totalRentedOutOverdue = Book::whereNotNull('user_id')
+            ->whereNull('returned_at')
+            ->where('due_date', '<', $currentDate) 
+            ->count();
+
+        return response()->json([
+            'totalRentedOutNotOverdue' => $totalRentedOutNotOverdue,
+            'totalRentedOutOverdue' => $totalRentedOutOverdue,
+        ]);
     }
 }

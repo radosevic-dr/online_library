@@ -62,6 +62,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/rent-a-book', [BookController::class, 'rent'])->middleware('checkLibrarian')->name('books.rent');
         Route::get('/show-book-rental-history', [BookController::class, 'showBookRentalHistory'])->middleware('checkLibrarian')->name('books.bookRentalHistory');
         Route::get('userRentalHistory', [BookController::class, 'userRentalHistory'])->middleware('checkLibrarian')->name('books.userRentalHistory');
+        Route::get('/retnal-dashboard', [BookController::class, 'rentalBookChart'])->middleware('checkLibrarian')->name('books.rentalChart');
     });
 
     // Category routes
