@@ -45,8 +45,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/auth/publishers/create', [PublisherController::class, 'createPublisher'])->name('publishers.create');
     Route::get('/auth/publishers/{id}', [PublisherController::class, 'viewPublisher'])->middleware('checkLibrarian')->name('publishers.view');
     Route::delete('/auth/publishers/{id}', [PublisherController::class, 'deletePublisher'])->middleware('checkLibrarian')->name('publishers.delete');
-});
 Route::get('/auth/publishers', [PublisherController::class, 'viewAllPublishers'])->name('publishers.index');
+});
 
 
 Route::get('/authors', [AuthorController::class, 'index']);
