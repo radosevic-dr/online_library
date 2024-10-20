@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PublisherResource;
 use App\Models\Publisher;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -37,17 +39,51 @@ class PublisherController extends Controller
         }
     }
 
-    public function viewAllPublishers(Publisher $publisher, Request $request)
+    public function viewAllPublishers(Request $request)
     {
-//        $perPageOptions = [20, 50, 100];
-//
-//        $perPage = $request->input('per_page', 20);
-//
-//        if (!in_array($perPage, $perPageOptions)) {
-//            $perPage = 20;
-//        }
-//
-//        return PublisherResource::collection(Publisher::paginate($perPage));
+        try {
+            $perPageOptions = [20, 50, 100];
+
+            $searchValue = $request->input('search', '');
+            $perPage = $request->input('per_page', 20);
+
+            if (!in_array($perPage, $perPageOptions)) {
+                $perPage = 20;
+            }
+
+            $validator = validator()->make($request->all(), [
+                'search' => 'string',
+                'per_page' => 'integer|in:' . implode(',', $perPageOptions),
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'error' => 'Invalid parameters',
+                    'message' => $validator->errors()
+                ], 400);
+            }
+
+            $query = Publisher::query();
+            if (!empty($searchValue)) {
+                $query->where('name', 'LIKE', "%{$searchValue}%");
+            }
+
+            $publishers = $query->paginate($perPage);
+
+            return response()->json([
+                'data' => PublisherResource::collection($publishers),
+                'meta' => [
+                    'total' => $publishers->total(),
+                    'per_page' => $publishers->perPage(),
+                    'current_page' => $publishers->currentPage(),
+                    'last_page' => $publishers->lastPage(),
+                ]
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage()
+            ], $e->getCode());
+        }
     }
 
     public function viewPublisher($id)
