@@ -44,7 +44,7 @@ class BookController extends Controller
     }
 
     
-    public function showRentalHistory(Request $request)
+    public function showBookRentalHistory(Request $request)
     {
         $request->validate([
             'book_id' => ['required', 'exists:books,id'],
@@ -53,6 +53,14 @@ class BookController extends Controller
         $book = Book::findOrFail($request->input('book_id'));
 
         $this->authorize('librarian', $request->user());
+
+        return $book->rentals;
+    }
+
+    
+    public function userRentalHistory(Book $book)
+    {
+        $this->authorize('librarian', auth()->user());
 
         return $book->rentals;
     }
