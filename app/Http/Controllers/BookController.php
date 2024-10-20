@@ -42,4 +42,18 @@ class BookController extends Controller
             'book_id' => $request->input('book_id'),
         ]);
     }
+
+    
+    public function showRentalHistory(Request $request)
+    {
+        $request->validate([
+            'book_id' => ['required', 'exists:books,id'],
+        ]);
+
+        $book = Book::findOrFail($request->input('book_id'));
+
+        $this->authorize('librarian', $request->user());
+
+        return $book->rentals;
+    }
 }
