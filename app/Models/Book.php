@@ -21,6 +21,10 @@ class Book extends Model
         'dimensions',
     ];
 
+    const SCRIPTS = ['cyrilic', 'latin', 'arabic'];
+    const BINDINGS = ['hardcover', 'paperback', 'spiral-bound'];
+    const DIMENSIONS = ['A1', 'A2', '21cm x 29.7cm', '15cm x 21cm'];
+
     public function authors()
     {
         return $this->hasMany(BookAuthor::class);
