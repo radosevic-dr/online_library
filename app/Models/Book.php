@@ -21,24 +21,24 @@ class Book extends Model
         'dimensions',
     ];
 
-//    public function bookAuthors()
-//    {
-//        return $this->hasMany(BookAuthor::class);
-//    }
-//
-//    public function bookPublishers()
-//    {
-//        return $this->hasMany(BookPublisher::class);
-//    }
-//
-//    public function bookGenres()
-//    {
-//        return $this->hasMany(BookGenre::class);
-//    }
-//
-//    public function bookCategories()
-//    {
-//        return $this->hasMany(BookCategory::class);
-//    }
+    public function authors()
+    {
+        return $this->hasMany(BookAuthor::class);
+    }
+
+    public function publishers()
+    {
+        return $this->hasMany(BookPublisher::class);
+    }
+
+    public function genres()
+    {
+        return $this->hasMany(BookGenre::class);
+    }
+
+    public function categories()
+    {
+        return $this->hasMany(BookCategory::class);
+    }
 
 }
