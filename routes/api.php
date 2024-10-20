@@ -58,7 +58,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/authors/{author}', [AuthorController::class, 'show']);
 
         // Book routes
-/*************  ✨ Codeium Command ⭐  *************/
         Route::post('/rent-a-book', [BookController::class, 'rent']);
         Route::get('/show-book-rental-history', [BookController::class, 'showRentalHistory'])->middleware('checkLibrarian')->name('books.bookRentalHistory');
     });
