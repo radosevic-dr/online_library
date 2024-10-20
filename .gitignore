@@ -1,3 +1,4 @@
+/mysql_data
 /.phpunit.cache
 /node_modules
 /public/build
@@ -8,6 +9,7 @@
 .env
 .env.backup
 .env.production
+.env.testing
 .phpactor.json
 .phpunit.result.cache
 Homestead.json
@@ -18,3 +20,4 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+mysql_data/mysql.sock
