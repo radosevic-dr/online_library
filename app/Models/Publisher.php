@@ -26,6 +26,7 @@ class Publisher extends Model implements HasMedia
 
     protected $fillable = [
         'name', 'address', 'website', 'email', 'phone', 'established_year'
+        ];
 
     // public function books()
     // {

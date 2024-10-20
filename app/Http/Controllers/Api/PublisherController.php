@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Publisher;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -31,9 +32,22 @@ class PublisherController extends Controller
             }
 
             return response()->json($publisher);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json(['error' => 'An error occurred while trying to create the publisher'], 500);
         }
+    }
+
+    public function viewAllPublishers(Publisher $publisher, Request $request)
+    {
+//        $perPageOptions = [20, 50, 100];
+//
+//        $perPage = $request->input('per_page', 20);
+//
+//        if (!in_array($perPage, $perPageOptions)) {
+//            $perPage = 20;
+//        }
+//
+//        return PublisherResource::collection(Publisher::paginate($perPage));
     }
 
     public function viewPublisher($id)
@@ -45,6 +59,23 @@ class PublisherController extends Controller
         $publisher = Publisher::findOrFail($id);
 
         return response()->json($publisher);
+    }
+
+    public function deletePublisher($id)
+    {
+        try {
+            $publisher = Publisher::findOrFail($id);
+
+            $publisher->delete();
+            return response()->json([
+                $id,
+                'message' => 'Publisher deleted successfully.'
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage()
+            ], $e->getCode());
+        }
     }
 
     public function getPublisherLogo(Publisher $publisher)
