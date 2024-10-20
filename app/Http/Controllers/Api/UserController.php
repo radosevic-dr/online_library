@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\UnauthorizedException;
 use Laravel\Sanctum\Sanctum;
 
@@ -80,7 +80,6 @@ class UserController extends Controller
 
         return response()->json($users);
     }
-
 
     public function viewUser(User $user)
     {
