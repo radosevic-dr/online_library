@@ -5,6 +5,8 @@
 /public/storage
 /storage/*.key
 /vendor
+.env.testing
+mysql_data
 .env
 .env.backup
 .env.production
